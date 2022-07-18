@@ -9,7 +9,7 @@ export default class Document extends NextDocument {
     return (
       <Html lang="en">
         <link
-          href="https://api.fontshare.com/v2/css?f[]=oswald@300,400&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=oswald@300,400,500,600&f[]=clash-display@200,400,700,500,600,300&display=swap"
           rel="stylesheet"
         />
         <link

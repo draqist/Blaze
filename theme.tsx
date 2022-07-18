@@ -1,21 +1,24 @@
-import { ComponentStyleConfig, extendTheme, theme, type ThemeConfig } from '@chakra-ui/react';
-
+import {
+  ComponentStyleConfig,
+  extendTheme,
+  theme,
+  type ThemeConfig,
+} from '@chakra-ui/react';
 
 // 2. Extend the theme to include custom colors, fonts, etc
-const colors = {
-};
+const colors = {};
 
-const config:ThemeConfig = {
+const config: ThemeConfig = {
   initialColorMode: 'dark',
-}
+};
 const Circle: ComponentStyleConfig = {
-    baseStyle: {
-      _hover: {
-        bgColor: '#9696969d',
-        color: 'white' 
-      }
-    }
-  }
+  baseStyle: {
+    _hover: {
+      bgColor: '#9696969d',
+      color: 'white',
+    },
+  },
+};
 const Theme = extendTheme({
   theme,
   Circle,
