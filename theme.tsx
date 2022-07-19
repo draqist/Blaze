@@ -11,17 +11,14 @@ const colors = {};
 const config: ThemeConfig = {
   initialColorMode: 'dark',
 };
-const Circle: ComponentStyleConfig = {
+const Button: ComponentStyleConfig = {
   baseStyle: {
-    _hover: {
-      bgColor: '#9696969d',
-      color: 'white',
-    },
+    outline : '0'
   },
 };
 const Theme = extendTheme({
   theme,
-  Circle,
+  Button,
   colors,
   config,
   fonts: {
