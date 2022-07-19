@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures= ["referentialIntegrity"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+
+model User {
+  id Int @id @default(autoincrement())
+  email String
+  password String
+  bio String
+  image String
+  userName String
+  task Task[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  team String
+  author User @relation(fields: [author_id], references: [id])
+  author_id Int
+  label String
+  progress Decimal
+  date DateTime
+
+}
