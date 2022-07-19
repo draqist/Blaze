@@ -13,7 +13,7 @@ const config: ThemeConfig = {
 };
 const Button: ComponentStyleConfig = {
   baseStyle: {
-    outline : '0'
+    outline: '0',
   },
 };
 const Theme = extendTheme({

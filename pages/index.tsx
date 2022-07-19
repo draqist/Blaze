@@ -2,7 +2,7 @@ import { Box, Button, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import type { NextPage } from 'next';
 import { letter, projectdescription, sentence } from '../extras';
-import  NextLink  from 'next/link'
+import NextLink from 'next/link';
 
 const Home: NextPage = () => {
   return (
@@ -27,11 +27,8 @@ const Home: NextPage = () => {
           Blaze{' '}
         </Heading>
         <Stack direction="row" alignItems="center" gap={['2', '', '4']}>
-          <Button variant="outline" colorScheme="whatsapp" >
-            <NextLink href='/signup'>
-              Sign Up
-            </NextLink>
-            {' '}
+          <Button variant="outline" colorScheme="whatsapp">
+            <NextLink href="/signup">Sign Up</NextLink>{' '}
           </Button>
           <Button variant="solid" colorScheme="purple" color="white">
             {' '}

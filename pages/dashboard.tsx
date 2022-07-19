@@ -20,7 +20,7 @@ const Dashboard: NextPage = () => {
   return (
     <Stack direction="row" bgColor={bgcolor} w="100%">
       <Sidebar />
-      <Box maxWidth="calc(100vw - 60px)" p={['6px','',"20px"]}>
+      <Box maxWidth="calc(100vw - 60px)" p={['6px', '', '20px']}>
         <Navbar />
         <Box>
           <Flex

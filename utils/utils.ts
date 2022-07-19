@@ -1,18 +1,28 @@
-import { auth, provider,createUserWithEmailAndPassword, signInWithPopup } from '../firebase.config.js'
+import {
+  auth,
+  provider,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from '../firebase.config.js';
 
 const SignUpwithGoogle = async () => {
   try {
-    const response = await signInWithPopup(auth, provider)
+    const response = await signInWithPopup(auth, provider);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
-const SignUpwithEmail = async (email : string, password : string) => {
+};
+// @ts-ignore
+const SignUpwithEmail = async (email: string, password: string, setError, Redirect) => {
   try {
-    await createUserWithEmailAndPassword(auth, email, password)
+    console.log(email, password)
+    await createUserWithEmailAndPassword(auth, email, password);
+    Redirect()
   } catch (error) {
-    console.log(error)
+    // @ts-ignore
+    setError({state: true, message: error.message});
+    console.log(error);
   }
-}
+};
 
-export { SignUpwithGoogle, SignUpwithEmail }
+export { SignUpwithGoogle, SignUpwithEmail };

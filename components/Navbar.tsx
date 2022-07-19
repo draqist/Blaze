@@ -7,7 +7,7 @@ const Navbar = () => {
     <Box
       borderRadius="10px"
       boxShadow="md"
-      p={['10px','',"30px"]}
+      p={['10px', '', '30px']}
       mb="10px"
       borderBottom="1px solid #d8d8d8b3"
     >
