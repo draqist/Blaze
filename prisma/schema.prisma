@@ -14,12 +14,14 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
-  email String
+  email String @unique
   password String
   bio String
   image String
   userName String
+  phoneNumber String
   task Task[]
+  createdAt   DateTime  @default(now())
 }
 model Task {
   id Int @id @default(autoincrement())
@@ -30,10 +32,12 @@ model Task {
   author_id Int
   label String
   progress Decimal
-  date DateTime
+  createdAt   DateTime  @default(now())
+  dueDate DateTime
   categories Category[]
 }
 model Category {
   id Int @id @default(autoincrement())
   task Task[]
+  title String
 }

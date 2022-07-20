@@ -3,10 +3,12 @@ import { atom } from 'recoil';
 const UserInfo = atom({
   key: 'User',
   default: {
-    username: '',
-    // image: '',
-    // phoneNumber: '',
+    userName: '',
+    image: '',
+    phoneNumber: '',
     email: '',
+    password: '',
+    bio: '',
   },
 });
 

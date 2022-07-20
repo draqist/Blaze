@@ -17,3 +17,13 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.react-calendar {
+  border: 2px solid transparent !important;
+  border-radius: 20px;
+  padding: 10px;
+  width: 70% !important;
+}
+abbr[title] {
+  text-decoration: none none;
+  text-decoration-style: none;
+}

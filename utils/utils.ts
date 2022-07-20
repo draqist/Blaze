@@ -17,8 +17,8 @@ const SignUpwithGoogle = async () => {
 const SignUpwithEmail = async (
   email: string,
   password: string,
-  setError,
-  Redirect,
+  setError: any,
+  Redirect: () => void,
 ) => {
   const actionCodeSettings = {
     url: 'http://localhost:3000/dashboard',

@@ -11,7 +11,11 @@ type Data = {
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
-) {}
+) {
+  if (req.method === 'POST') {
+  } else {
+  }
+}
 
 export const allTasks = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -34,7 +38,7 @@ export const addTask = async (req: NextApiRequest, res: NextApiResponse) => {
         description: body.description,
         label: body.label,
         progress: body.progress,
-        date: body.date,
+        dueDate: body.date,
         author: body.author,
       },
     });

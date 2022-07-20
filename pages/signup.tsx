@@ -10,13 +10,13 @@ import {
   Input,
   useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { Error, User } from '../utils/types';
-import { SignUpwithEmail, SignUpwithGoogle } from '../utils/utils';
-import { useRouter } from 'next/router';
-import { UserInfo } from '../utils/atom';
 import { useRecoilState } from 'recoil';
+import { UserInfo } from '../utils/atom';
+import { Error, initialUser, User } from '../utils/types';
+import { SignUpwithEmail, SignUpwithGoogle } from '../utils/utils';
 
 const Signup = () => {
   let router = useRouter();
@@ -25,12 +25,7 @@ const Signup = () => {
   function Redirect() {
     router.push('/dashboard');
   }
-  const [userInfo, setUserInfo] = useState<User>({
-    username: '',
-    email: '',
-    password: '',
-    c_password: '',
-  });
+  const [userInfo, setUserInfo] = useState<User>(initialUser);
   const [err, setError] = useState<Error>({
     state: false,
     message: '',
@@ -49,13 +44,27 @@ const Signup = () => {
       isClosable: true,
       position: 'top',
     });
-  function handleSignUp() {
+  async function handleSignUp() {
     useBioData({
       ...bioData,
-      username: userInfo.username,
       email: userInfo.email,
+      password: userInfo.password,
+      bio: userInfo.bio,
+      image: userInfo.image,
+      userName: userInfo.userName,
+      phoneNumber: userInfo.phoneNumber,
     });
     SignUpwithEmail(userInfo.email, userInfo.password, setError, Redirect);
+    try {
+      const RegUser = await fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userInfo),
+      });
+      console.log(RegUser);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <Center w="100vw" h="100vh">
@@ -78,8 +87,8 @@ const Signup = () => {
             </FormLabel>
             <Input
               type="text"
-              name="username"
-              value={userInfo.username}
+              name="userName"
+              value={userInfo.userName}
               onChange={handleStates}
             />
             <FormErrorMessage> Kindly enter a username </FormErrorMessage>

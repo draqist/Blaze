@@ -2,7 +2,7 @@ import { Avatar, Box, Flex, Stack, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { UserInfo } from '../utils/atom.js';
+import { UserInfo } from '../utils/atom';
 
 const Navbar = () => {
   const date = new Date();
@@ -29,12 +29,11 @@ const Navbar = () => {
         <Stack direction="row" alignItems="center" gap="2">
           <Box w="20px" h="20px" bg="yellow"></Box>
           <Box w="20px" h="20px" bg="green"></Box>
-          <Box w="20px" h="20px" bg="green"></Box>
           <Text> {date.toDateString()} </Text>
           <Avatar
             size="sm"
             name="User Name"
-            src="https://bit.ly/segun-adebayo"
+            src="https://bit.ly/sage-adebayo"
           />
         </Stack>
       </Flex>
