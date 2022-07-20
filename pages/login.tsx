@@ -10,18 +10,15 @@ import {
   Input,
   useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Error, User } from '../utils/types';
 import { SignUpwithEmail, SignUpwithGoogle } from '../utils/utils';
-import { useRouter } from 'next/router';
-import { UserInfo } from '../utils/atom';
-import { useRecoilState } from 'recoil';
 
 const Signup = () => {
   let router = useRouter();
   let toast = useToast();
-  const [bioData, useBioData] = useRecoilState(UserInfo);
   function Redirect() {
     router.push('/dashboard');
   }
@@ -35,27 +32,12 @@ const Signup = () => {
     state: false,
     message: '',
   });
+  console.log(err);
   // @ts-ignore
   function handleStates(e) {
     e.preventDefault();
     let value = e.target.value;
     setUserInfo({ ...userInfo, [e.target.name]: value });
-  }
-  err?.state &&
-    toast({
-      title: `${err.message}`,
-      status: 'error',
-      duration: 5000,
-      isClosable: true,
-      position: 'top',
-    });
-  function handleSignUp() {
-    useBioData({
-      ...bioData,
-      username: userInfo.username,
-      email: userInfo.email,
-    });
-    SignUpwithEmail(userInfo.email, userInfo.password, setError, Redirect);
   }
   return (
     <Center w="100vw" h="100vh">
@@ -71,7 +53,16 @@ const Signup = () => {
           {' '}
           Blaze up !!!{' '}
         </Heading>
+        {err?.state &&
+          toast({
+            title: `${err.message}`,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top',
+          })}
         <Box fontWeight="300" textAlign="left">
+          {/* <Form */}
           <FormControl isRequired>
             <FormLabel fontWeight="400" mt="8px" fontFamily="Oswald">
               Username{' '}
@@ -125,10 +116,24 @@ const Signup = () => {
             />
           </FormControl>
         </Box>
-        <Button mt="16px" w="100%" onClick={handleSignUp}>
+        <Button
+          mt="16px"
+          w="100%"
+          onClick={() =>
+            SignUpwithEmail(
+              userInfo.email,
+              userInfo.password,
+              setError,
+              Redirect,
+            )
+          }
+        >
           {' '}
           Sign Up{' '}
         </Button>
+        <Box textAlign="center" w="100%">
+          or
+        </Box>
         <Button
           isDisabled
           mt="16px"

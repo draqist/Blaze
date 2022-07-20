@@ -1,7 +1,13 @@
 import { initializeApp } from 'firebase/app';
 import {
-  createUserWithEmailAndPassword, getAuth,
-  GoogleAuthProvider, onAuthStateChanged, signInWithPopup
+  createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  applyActionCode,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -19,5 +25,14 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 // const analytics = getAnalytics(app);
 
-export { app, auth, provider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup };
-
+export {
+  app,
+  auth,
+  provider,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithPopup,
+  applyActionCode,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+};

@@ -5,9 +5,8 @@ generator client {
   provider = "prisma-client-js"
   previewFeatures= ["referentialIntegrity"]
 }
-
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
@@ -22,16 +21,19 @@ model User {
   userName String
   task Task[]
 }
-
 model Task {
   id Int @id @default(autoincrement())
   title String
   description String
-  team String
+  // team String
   author User @relation(fields: [author_id], references: [id])
   author_id Int
   label String
   progress Decimal
   date DateTime
-
+  categories Category[]
+}
+model Category {
+  id Int @id @default(autoincrement())
+  task Task[]
 }

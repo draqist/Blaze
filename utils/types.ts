@@ -5,6 +5,6 @@ export interface User {
   username: string;
 }
 export interface Error {
-  state: boolean,
-  message: string
+  state: boolean;
+  message: string;
 }
