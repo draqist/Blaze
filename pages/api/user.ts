@@ -31,6 +31,7 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: 'Error creating user' });
   }
 };
 export const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {

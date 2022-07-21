@@ -34,8 +34,15 @@ const SignUpwithEmail = async (
   };
 
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    Redirect();
+    await createUserWithEmailAndPassword(auth, email, password).then(
+      (userMeta) => {
+        if (userMeta) {
+          Redirect();
+        } else {
+          setError({ state: true, message: 'Error logging in' });
+        }
+      },
+    );
     // await sendEmailVerification(newUser.user)
   } catch (error) {
     // @ts-ignore
@@ -46,13 +53,21 @@ const SignUpwithEmail = async (
 const SignInwithEmail = async (
   email: string,
   password: string,
+  setError: any,
   Redirect: () => void,
 ) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-    Redirect();
+    await signInWithEmailAndPassword(auth, email, password).then((userMeta) => {
+      if (userMeta) {
+        Redirect();
+      } else {
+        // setError({state: true, message: "Error logging in"})
+      }
+    });
   } catch (error) {
     console.log(error);
+    // @ts-ignore
+    setError({ state: true, message: error.message });
   }
 };
 export { SignUpwithGoogle, SignUpwithEmail, SignInwithEmail };

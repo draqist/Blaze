@@ -10,8 +10,8 @@ const Navbar = () => {
   const displayName = useRecoilValue(UserInfo);
 
   useEffect(() => {
-    setUserName(displayName.username);
-  }, []);
+    setUserName(displayName.userName);
+  }, [displayName.userName]);
 
   return (
     <Box

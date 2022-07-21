@@ -8,7 +8,7 @@ import {
   FormLabel,
   Heading,
   Input,
-  useToast,
+  useToast
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -21,7 +21,7 @@ import { SignUpwithEmail, SignUpwithGoogle } from '../utils/utils';
 const Signup = () => {
   let router = useRouter();
   let toast = useToast();
-  const [bioData, useBioData] = useRecoilState(UserInfo);
+  const [bioData, setBioData] = useRecoilState(UserInfo);
   function Redirect() {
     router.push('/dashboard');
   }
@@ -45,7 +45,7 @@ const Signup = () => {
       position: 'top',
     });
   async function handleSignUp() {
-    useBioData({
+    setBioData({
       ...bioData,
       email: userInfo.email,
       password: userInfo.password,
@@ -63,7 +63,8 @@ const Signup = () => {
       });
       console.log(RegUser);
     } catch (error) {
-      console.log(error);
+      // @ts-ignore
+      console.log(error.message);
     }
   }
   return (

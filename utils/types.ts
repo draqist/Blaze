@@ -25,9 +25,8 @@ export interface Task {
   description: string;
   label: string;
   progress: Number;
-  dueDate: Date,
-  author: User
-
+  dueDate: Date;
+  author: User;
 }
 export const initialTask = {
   title: '',
@@ -36,5 +35,5 @@ export const initialTask = {
   progress: 0,
   dueDate: new Date(),
   // To call user from local storage here instead of initalUser
-  author: initialUser
+  author: initialUser,
 };

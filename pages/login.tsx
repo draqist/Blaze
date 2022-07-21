@@ -4,7 +4,6 @@ import {
   Center,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   FormLabel,
   Heading,
   Input,
@@ -13,8 +12,8 @@ import {
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { Error, User } from '../utils/types';
-import { SignUpwithEmail, SignUpwithGoogle } from '../utils/utils';
+import { Error, initialUser, User } from '../utils/types';
+import { SignInwithEmail, SignUpwithGoogle } from '../utils/utils';
 
 const Signup = () => {
   let router = useRouter();
@@ -22,12 +21,7 @@ const Signup = () => {
   function Redirect() {
     router.push('/dashboard');
   }
-  const [userInfo, setUserInfo] = useState<User>({
-    username: '',
-    email: '',
-    password: '',
-    c_password: '',
-  });
+  const [userInfo, setUserInfo] = useState<User>(initialUser);
   const [err, setError] = useState<Error>({
     state: false,
     message: '',
@@ -39,6 +33,19 @@ const Signup = () => {
     let value = e.target.value;
     setUserInfo({ ...userInfo, [e.target.name]: value });
   }
+  {
+    err?.state &&
+      toast({
+        title: `${err.message}`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+  }
+  function handleLogIn() {
+    SignInwithEmail(userInfo.email, userInfo.password, setError, Redirect);
+  }
   return (
     <Center w="100vw" h="100vh">
       <Box
@@ -49,32 +56,12 @@ const Signup = () => {
         p={['20px', '', '40px']}
         boxShadow="md"
       >
-        <Heading mb="10px" fontSize="24px" fontWeight="600" color="gray.700">
+        <Heading mb="10px" fontSize="24px" fontWeight="600" color="orange.300">
           {' '}
-          Blaze up !!!{' '}
+          Blaze in !!!{' '}
         </Heading>
-        {err?.state &&
-          toast({
-            title: `${err.message}`,
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top',
-          })}
         <Box fontWeight="300" textAlign="left">
           {/* <Form */}
-          <FormControl isRequired>
-            <FormLabel fontWeight="400" mt="8px" fontFamily="Oswald">
-              Username{' '}
-            </FormLabel>
-            <Input
-              type="text"
-              name="username"
-              value={userInfo.username}
-              onChange={handleStates}
-            />
-            <FormErrorMessage> Kindly enter a username </FormErrorMessage>
-          </FormControl>
           <FormControl isRequired>
             <FormLabel fontWeight="400" mt="8px" fontFamily="Oswald">
               Email address
@@ -86,7 +73,6 @@ const Signup = () => {
               value={userInfo.email}
               onChange={handleStates}
             />
-            <FormHelperText>We'll never share your email.</FormHelperText>
             <FormErrorMessage>
               {' '}
               Kindly enter a valid email address
@@ -104,30 +90,8 @@ const Signup = () => {
               onChange={handleStates}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel fontWeight="400" mt="8px" fontFamily="Oswald">
-              Confirm Password
-            </FormLabel>
-            <Input
-              type="password"
-              name="c_password"
-              value={userInfo.c_password}
-              onChange={handleStates}
-            />
-          </FormControl>
         </Box>
-        <Button
-          mt="16px"
-          w="100%"
-          onClick={() =>
-            SignUpwithEmail(
-              userInfo.email,
-              userInfo.password,
-              setError,
-              Redirect,
-            )
-          }
-        >
+        <Button mt="16px" w="100%" onClick={handleLogIn}>
           {' '}
           Sign Up{' '}
         </Button>
@@ -144,7 +108,7 @@ const Signup = () => {
           onClick={SignUpwithGoogle}
         >
           {' '}
-          Sign up with{' '}
+          Sign in with{' '}
         </Button>
       </Box>
     </Center>

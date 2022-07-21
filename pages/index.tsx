@@ -31,8 +31,7 @@ const Home: NextPage = () => {
             <NextLink href="/signup">Sign Up</NextLink>{' '}
           </Button>
           <Button variant="solid" colorScheme="purple" color="white">
-            {' '}
-            Log In{' '}
+            <NextLink href="/login">Log In </NextLink>
           </Button>
         </Stack>
       </Flex>
