@@ -41,6 +41,21 @@ const Dashboard: NextPage = () => {
     let value = e.target.value;
     setTasks({ ...newTask, [e.target.name]: value });
   }
+  async function createNewTask() {
+    try {
+      const createtask = await fetch('/api/task', {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTask),
+      })
+      console.log(newTask)
+      onClose()
+      return createtask;
+    } catch (error) {
+      return error
+    }
+    // setTasks(initialTask);
+  }
   return (
     <Stack direction="row" bgColor={bgcolor} w="100%">
       <Sidebar />
@@ -210,7 +225,7 @@ const Dashboard: NextPage = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="blue" mr={3} onClick={createNewTask}>
               Add task
             </Button>
           </ModalFooter>

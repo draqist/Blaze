@@ -20,24 +20,20 @@ model User {
   image String
   userName String
   phoneNumber String
-  task Task[]
+  tasks Task[]
   createdAt   DateTime  @default(now())
 }
 model Task {
   id Int @id @default(autoincrement())
   title String
   description String
-  // team String
-  author User @relation(fields: [author_id], references: [id])
-  author_id Int
   label String
-  progress Decimal
-  createdAt   DateTime  @default(now())
-  dueDate DateTime
-  categories Category[]
+  createdAt DateTime  @default(now())
+  author User? @relation(fields: [authorId], references: [id])
+  authorId Int
 }
 model Category {
   id Int @id @default(autoincrement())
-  task Task[]
+  // task Task[]
   title String
 }

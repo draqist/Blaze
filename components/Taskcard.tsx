@@ -7,10 +7,12 @@ import {
   Tag,
   Text,
 } from '@chakra-ui/react';
+import Draggable from 'react-draggable';
 import { FaEllipsisH } from 'react-icons/fa';
 
 const Taskcard = () => {
   return (
+    <Draggable>
     <Box
       w="300px"
       h="175px"
@@ -57,7 +59,8 @@ const Taskcard = () => {
           </Stack>
         </Flex>
       </Box>
-    </Box>
+      </Box>
+    </Draggable>
   );
 };
 

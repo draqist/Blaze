@@ -61,7 +61,7 @@ const Signup = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userInfo),
       });
-      console.log(RegUser);
+      return RegUser;
     } catch (error) {
       // @ts-ignore
       console.log(error.message);
