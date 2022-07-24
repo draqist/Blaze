@@ -20,7 +20,7 @@ export const ColorModeSwitcher = (props: any) => {
       aria-label={`Switch to ${text} mode`}
       variant="solid"
       color="current"
-      mt="14px"
+      // mt="14px"
       onClick={toggleColorMode}
       {...props}
       fontWeight="400"

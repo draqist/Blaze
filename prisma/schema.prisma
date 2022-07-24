@@ -29,11 +29,17 @@ model Task {
   description String
   label String
   createdAt DateTime  @default(now())
-  author User? @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id])
   authorId Int
-}
+  dueDate DateTime  @default(now())
+  category Category @relation(fields: [categoryId], references:[id])
+  categoryId Int @default(1)
+
+  @@index([categoryId])
+  }
 model Category {
   id Int @id @default(autoincrement())
-  // task Task[]
   title String
+  tasks Task[] 
 }
+

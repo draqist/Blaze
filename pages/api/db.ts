@@ -4,16 +4,14 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    return await createTask(req, res)
-  } else if (req.method === "GET") {
-    return await getTasks(req, res)
+    return await createTask(req, res);
+  } else if (req.method === 'GET') {
+    return await getTasks(req, res);
   }
 }
 
@@ -37,14 +35,13 @@ export const createTask = async (req: NextApiRequest, res: NextApiResponse) => {
         title: body.title,
         description: body.description,
         label: body.label,
-        // progress: body.progress,
-        // dueDate: body.dueDate,
-        // author: body.author,
+        authorId: body.author_id,
+        dueDate: body.dueDate,
       },
     });
-    console.log(res)
+    console.log(res);
     return res.status(200).json(createdTask);
   } catch (error) {
-    return res.status(500).json({message: "Could not create task"})
+    return res.status(500).json({ message: 'Could not create task' });
   }
 };

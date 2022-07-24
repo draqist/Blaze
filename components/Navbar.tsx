@@ -1,17 +1,37 @@
 import { Avatar, Box, Flex, Stack, Text } from '@chakra-ui/react';
+import axios from 'axios';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { auth } from '../firebase.config';
 
 import { UserInfo } from '../utils/atom';
+import { ColorModeSwitcher } from './ColorModeSwitcher';
 
-const Navbar = () => {
+const Navbar = ({ UserDetails }: any) => {
   const date = new Date();
   const [userName, setUserName] = useState<String>('');
-  const displayName = useRecoilValue(UserInfo);
+  // const [displayName, setDisplayName] = useRecoilState(UserInfo);
+  const [email, setEmail] = useState('');
 
+  async function getUser(email: string) {
+    try {
+      const dew = await axios.get(`/api/users/${email}`);
+      setUserName(dew.data.userName);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
-    setUserName(displayName.userName);
-  }, [displayName.userName]);
+    onAuthStateChanged(auth, (userCred) => {
+      if (userCred?.email !== null) {
+        // @ts-ignore
+        setEmail(userCred.email);
+        // @ts-ignore
+        getUser(userCred.email);
+      }
+    });
+  }, []);
 
   return (
     <Box
@@ -26,9 +46,10 @@ const Navbar = () => {
           {' '}
           Welcome back, {userName}
         </Text>
-        <Stack direction="row" alignItems="center" gap="2">
-          <Box w="20px" h="20px" bg="yellow"></Box>
-          <Box w="20px" h="20px" bg="green"></Box>
+        <Stack direction="row" alignItems="center" justifyContent='center' gap="2">
+          {/* <Box w="20px" h="20px" bg="yellow"></Box>
+          <Box w="20px" h="20px" bg="green"></Box> */}
+          <ColorModeSwitcher/>
           <Text> {date.toDateString()} </Text>
           <Avatar
             size="sm"

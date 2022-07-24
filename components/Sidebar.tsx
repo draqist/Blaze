@@ -15,7 +15,7 @@ const Sidebar = () => {
       direction="column"
       textAlign="center"
       h="100vh"
-      w="60px"
+      w={['0', '', '60px']}
       bg={bgcolor}
       color={textcolor}
       fontSize="28px"

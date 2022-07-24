@@ -8,14 +8,14 @@ import {
   FormLabel,
   Heading,
   Input,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from '../utils/atom';
-import { Error, initialUser, User } from '../utils/types';
+import { Error, initialUser, Usar } from '../utils/types';
 import { SignUpwithEmail, SignUpwithGoogle } from '../utils/utils';
 
 const Signup = () => {
@@ -25,7 +25,7 @@ const Signup = () => {
   function Redirect() {
     router.push('/dashboard');
   }
-  const [userInfo, setUserInfo] = useState<User>(initialUser);
+  const [userInfo, setUserInfo] = useState<Usar>(initialUser);
   const [err, setError] = useState<Error>({
     state: false,
     message: '',
@@ -61,6 +61,7 @@ const Signup = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userInfo),
       });
+      console.log(RegUser);
       return RegUser;
     } catch (error) {
       // @ts-ignore
@@ -130,8 +131,8 @@ const Signup = () => {
             <Input
               type="password"
               name="c_password"
-              value={userInfo.c_password}
-              onChange={handleStates}
+              // value={userInfo.c_password}
+              // onChange={handleStates}
             />
           </FormControl>
         </Box>
