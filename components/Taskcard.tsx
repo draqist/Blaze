@@ -1,7 +1,12 @@
 import {
   Box,
+  Button,
   Circle,
   Flex,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Progress,
   Stack,
   Tag,
@@ -11,7 +16,7 @@ import { FaEllipsisH } from 'react-icons/fa';
 import { taskcard } from '../utils/types';
 
 const Taskcard = ({ title, team, progress, date, label }: taskcard) => {
-  const d = new Date(date).toDateString()
+  const d = new Date(date).toDateString();
   return (
     <>
       <Box
@@ -27,14 +32,32 @@ const Taskcard = ({ title, team, progress, date, label }: taskcard) => {
             <Text fontSize="20px"> {title} </Text>
             <Text fontSize="12px"> {team}</Text>
           </Box>
-          <Circle
-            size="24px"
-            border="1px solid #d3d3d4"
-            textAlign="center"
-            _hover={{ bg: '#E2E8F0', color: 'gray.700' }}
-          >
-            <FaEllipsisH fontSize="16px" />
-          </Circle>
+          <Menu>
+            <MenuButton
+              borderRadius="50%"
+              textAlign="center"
+              size="sm"
+              w="30px"
+              h="30px"
+              as={Button}
+              outline="none"
+              variant="unstyled"
+            >
+              <Circle
+                border="1px solid #d3d3d4"
+                size="26px"
+                _hover={{ bgColor: '#E2E8F0' }}
+              >
+                <FaEllipsisH fontSize="16px" />
+              </Circle>
+            </MenuButton>
+            <MenuList>
+              <MenuItem>Download</MenuItem>
+              <MenuItem>Create a Copy</MenuItem>
+              <MenuItem>Mark as Draft</MenuItem>
+              <MenuItem color="red"> Delete </MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
         <Box mt="18px">
           <Flex justifyContent="space-between" alignItems="center">

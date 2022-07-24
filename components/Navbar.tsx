@@ -2,13 +2,11 @@ import { Avatar, Box, Flex, Stack, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { auth } from '../firebase.config';
 
-import { UserInfo } from '../utils/atom';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 
-const Navbar = ({ UserDetails }: any) => {
+const Navbar = () => {
   const date = new Date();
   const [userName, setUserName] = useState<String>('');
   // const [displayName, setDisplayName] = useRecoilState(UserInfo);
@@ -46,10 +44,15 @@ const Navbar = ({ UserDetails }: any) => {
           {' '}
           Welcome back, {userName}
         </Text>
-        <Stack direction="row" alignItems="center" justifyContent='center' gap="2">
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          gap="2"
+        >
           {/* <Box w="20px" h="20px" bg="yellow"></Box>
           <Box w="20px" h="20px" bg="green"></Box> */}
-          <ColorModeSwitcher/>
+          <ColorModeSwitcher />
           <Text> {date.toDateString()} </Text>
           <Avatar
             size="sm"

@@ -1,6 +1,9 @@
 import {
-  Box, Flex, Stack, useColorModeValue,
-  useDisclosure
+  Box,
+  Flex,
+  Stack,
+  useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import type { NextPage } from 'next';
@@ -27,7 +30,7 @@ const Dashboard: NextPage = () => {
       console.log(error);
     }
   }
-  
+
   return (
     <Stack direction="row" bgColor={bgcolor} w="100%">
       <Box pos="fixed">
@@ -51,7 +54,15 @@ const Dashboard: NextPage = () => {
             py="20px"
             w={['calc(100vw - 10px)', '', 'calc(100vw - 100px)']}
           >
-            {category?.map((data) => <CardStack key={data.id} title={data.title} task={ data.tasks } id={data.id} />)}
+            {category?.map((data) => (
+              <CardStack
+                key={data.id}
+                title={data.title}
+                task={data.tasks}
+                id={data.id}
+                rev={getTasks}
+              />
+            ))}
           </Flex>
         </Box>
       </Box>

@@ -20,48 +20,48 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { initialTask, Task } from '../utils/types';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
 import Taskcard from './Taskcard';
 
-const CardStack = (props : any) => {
-  const { title, task, id } = props
+const CardStack = (props: any) => {
+  const { title, task, id, rev } = props;
   const textcolor = useColorModeValue('black', 'white');
   const [newTask, setTasks] = useState<Task>(initialTask);
   const [dis, setDis] = useState('');
+  const [is, setIs] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (id === 1) {
-      setDis('flex')
+      setDis('flex');
     } else {
-      setDis('none')
+      setDis('none');
     }
-    
-  }, [id])
+  }, [id]);
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
     setTasks({ ...newTask, [e.target.name]: value });
   }
+
   async function createNewTask() {
     try {
-      const createtask = await fetch('/api/task', {
+      const createtask = await fetch('/api/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
       });
       console.log(createtask);
       onClose();
-      // setDis(true);
       return createtask;
     } catch (error) {
       return error;
     } finally {
       setTasks(initialTask);
-      // setDis(false)
+      rev();
+      // setIs(false)
     }
   }
   return (
@@ -80,7 +80,7 @@ const CardStack = (props : any) => {
       >
         <Flex justifyContent="space-between" alignItems="center" mb="10px">
           <Text mb="6px"> {title} </Text>
-          
+
           <Button
             display={dis}
             variant="ghost"
@@ -97,20 +97,17 @@ const CardStack = (props : any) => {
             </Text>
           </Button>
         </Flex>
-        {
-          task?.map((data: any) => (
-            <Stack key={data.id} direction="column" gap={'5'} py='5px'>
-              <Taskcard
-                title={data.title}
-                team={data.description}
-                label={data.label}
-                date={data.createdAt}
-                progress={'2'}
-              />
-            </Stack>
-          )
-            )
-        }
+        {task?.map((data: any) => (
+          <Stack key={data.id} direction="column" gap={'5'} py="5px">
+            <Taskcard
+              title={data.title}
+              team={data.description}
+              label={data.label}
+              date={data.createdAt}
+              progress={'2'}
+            />
+          </Stack>
+        ))}
       </Stack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -168,6 +165,7 @@ const CardStack = (props : any) => {
 
           <ModalFooter>
             <Button
+              isLoading={is}
               colorScheme="blue"
               mr={3}
               onClick={createNewTask}
@@ -178,7 +176,6 @@ const CardStack = (props : any) => {
         </ModalContent>
       </Modal>
     </>
-    
   );
 };
 

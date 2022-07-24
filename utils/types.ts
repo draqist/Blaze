@@ -46,8 +46,8 @@ export interface Task {
   label: string;
   authorId: Number;
   categoryId: Number;
-  dueDate: String;
-  createdAt: String;
+  dueDate: Date;
+  createdAt: Date;
   // progress: Number;
 }
 export const initialTask = {
@@ -56,8 +56,8 @@ export const initialTask = {
   label: '',
   authorId: 1,
   categoryId: 1,
-  dueDate: new Date().toString(),
-  createdAt: new Date().toString(),
+  dueDate: new Date(),
+  createdAt: new Date(),
   // progress: 0,
   // To call user from local storage here instead of initalUser
 };
