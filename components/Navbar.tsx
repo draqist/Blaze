@@ -25,6 +25,7 @@ const Navbar = () => {
       if (userCred?.email !== null) {
         // @ts-ignore
         setEmail(userCred.email);
+        console.log(email)
         // @ts-ignore
         getUser(userCred.email);
       }
@@ -40,7 +41,7 @@ const Navbar = () => {
       borderBottom="1px solid #d8d8d8b3"
     >
       <Flex justifyContent="space-between" alignItems="center">
-        <Text fontSize="20px" color="current">
+        <Text fontSize={['16px','','20px']} color="current">
           {' '}
           Welcome back, {userName}
         </Text>
@@ -53,7 +54,7 @@ const Navbar = () => {
           {/* <Box w="20px" h="20px" bg="yellow"></Box>
           <Box w="20px" h="20px" bg="green"></Box> */}
           <ColorModeSwitcher />
-          <Text> {date.toDateString()} </Text>
+          <Text fontSize={['12px','','15px']}> {date.toDateString()} </Text>
           <Avatar
             size="sm"
             name="User Name"

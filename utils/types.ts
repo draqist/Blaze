@@ -14,6 +14,10 @@ export type taskcard = {
   progress: string;
   date: string;
   label: string;
+  id: number;
+  pop: () => void;
+  k: any;
+  author_id: number
 };
 export interface Usar {
   email: string;
@@ -27,7 +31,6 @@ export const initialUser = {
   userName: '',
   email: '',
   password: '',
-  c_password: '',
   bio: '',
   phoneNumber: '',
   image: '',

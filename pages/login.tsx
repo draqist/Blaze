@@ -7,12 +7,13 @@ import {
   FormLabel,
   Heading,
   Input,
-  useToast,
+  useToast
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { Error, initialUser, User } from '../utils/types';
+import { Error, initialUser, Usar } from '../utils/types';
 import { SignInwithEmail, SignUpwithGoogle } from '../utils/utils';
 
 const Signup = () => {
@@ -21,7 +22,7 @@ const Signup = () => {
   function Redirect() {
     router.push('/dashboard');
   }
-  const [userInfo, setUserInfo] = useState<User>(initialUser);
+  const [userInfo, setUserInfo] = useState<Usar>(initialUser);
   const [err, setError] = useState<Error>({
     state: false,
     message: '',
@@ -47,7 +48,7 @@ const Signup = () => {
     SignInwithEmail(userInfo.email, userInfo.password, setError, Redirect);
   }
   return (
-    <Center w="100vw" h="100vh">
+    <Center as={motion.div} initial={{opacity: 1}} animate={{opacity: 1, transition:{duration: 2000}}} exit={{opacity: 0}} w="100vw" h="100vh">
       <Box
         w={['calc(100vw - 40px)', '', '800px']}
         textAlign="center"

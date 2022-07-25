@@ -10,6 +10,7 @@ import {
   Input,
   useToast,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
@@ -45,18 +46,9 @@ const Signup = () => {
       position: 'top',
     });
   async function handleSignUp() {
-    setBioData({
-      ...bioData,
-      email: userInfo.email,
-      password: userInfo.password,
-      bio: userInfo.bio,
-      image: userInfo.image,
-      userName: userInfo.userName,
-      phoneNumber: userInfo.phoneNumber,
-    });
     SignUpwithEmail(userInfo.email, userInfo.password, setError, Redirect);
     try {
-      const RegUser = await fetch('/api/user', {
+      const RegUser = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userInfo),
@@ -69,7 +61,7 @@ const Signup = () => {
     }
   }
   return (
-    <Center w="100vw" h="100vh">
+    <Center as={motion.div} initial={{opacity: 1}} animate={{opacity: 1, transition:{duration: 2000}}} exit={{opacity: 0}} w="100vw" h="100vh">
       <Box
         w={['calc(100vw - 40px)', '', '800px']}
         textAlign="center"

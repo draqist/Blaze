@@ -13,18 +13,18 @@ export const ColorModeSwitcher = (props: any) => {
   return (
     <Button
       size="sm"
-      fontSize="lg"
       aria-label={`Switch to ${text} mode`}
       variant="solid"
       color="current"
       // p="14px"
       borderRadius="50%"
-      w="40px"
-      h="40px"
+      w={['28px','',"40px"]}
+      h={['28px','',"40px"]}
       onClick={toggleColorMode}
       {...props}
       fontWeight="400"
       __active={{ outline: 'none' }}
+      fontSize={['28px','','']}
     >
       <SwitchIcon />
     </Button>

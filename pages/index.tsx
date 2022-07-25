@@ -24,7 +24,7 @@ const Home: NextPage = () => {
           fontSize={['28px', '', '40px']}
         >
           {' '}
-          Blazers{' '}
+          Blaze{' '}
         </Heading>
         <Stack direction="row" alignItems="center" gap={['2', '', '4']}>
           <Button variant="outline" colorScheme="whatsapp">

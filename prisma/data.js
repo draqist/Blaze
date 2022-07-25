@@ -18,6 +18,7 @@ const categories = [
 
 const seedCategory = async () => {
   try {
+    await prisma.category.deleteMany()
     await prisma.category.createMany({
       data: categories,
     });
@@ -26,9 +27,7 @@ const seedCategory = async () => {
     console.error(e);
     process.exit(1);
   } finally {
-    prisma.$disconnect(
-      
-    )
+    prisma.$disconnect()
   }
 };
 

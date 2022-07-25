@@ -2,8 +2,7 @@ import {
   Box,
   Flex,
   Stack,
-  useColorModeValue,
-  useDisclosure,
+  useColorModeValue
 } from '@chakra-ui/react';
 import axios from 'axios';
 import type { NextPage } from 'next';
@@ -11,11 +10,10 @@ import { useEffect, useState } from 'react';
 import CardStack from '../components/CardStack';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import { Category, initialTask, Task } from '../utils/types';
+import { Category } from '../utils/types';
 
 const Dashboard: NextPage = () => {
   const bgcolor = useColorModeValue('white', 'black');
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [category, setCategory] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -32,14 +30,14 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <Stack direction="row" bgColor={bgcolor} w="100%">
-      <Box pos="fixed">
+    <Stack direction="row" bgColor={bgcolor} w={['100vw','',"100%"]}>
+      <Box pos="fixed" w={['0','','']}>
         <Sidebar />
       </Box>
       <Box
         pos="relative"
-        left="50px"
-        minWidth="calc(100vw - 60px)"
+        left={['0','',"50px"]}
+        minWidth={['100%','',"calc(100vw - 60px)"]}
         p={['6px', '', '20px']}
       >
         <Navbar />
@@ -52,7 +50,7 @@ const Dashboard: NextPage = () => {
             alignItems="flex-start"
             gap={['2', '', '5']}
             py="20px"
-            w={['calc(100vw - 10px)', '', 'calc(100vw - 100px)']}
+            w={['100vw', '', 'calc(100vw - 100px)']}
           >
             {category?.map((data) => (
               <CardStack
@@ -71,3 +69,5 @@ const Dashboard: NextPage = () => {
 };
 
 export default Dashboard;
+
+// export function getStaticProps() {}

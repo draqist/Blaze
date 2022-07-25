@@ -12,11 +12,57 @@ import {
   Tag,
   Text,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
+import { IoMove } from 'react-icons/io5';
+import { MdOutlineEdit } from 'react-icons/md';
 import { taskcard } from '../utils/types';
 
-const Taskcard = ({ title, team, progress, date, label }: taskcard) => {
+const Taskcard = ({ title, team, progress, date, label, id, pop, k, author_id }: taskcard) => {
   const d = new Date(date).toDateString();
+  const [selId, setSelId] = useState(id)
+  const [catid, setCatId] = useState(1)
+  useEffect(() => {
+    console.log(selId)
+  }, [])
+  let colorscheme;
+  if (label === 'Critical') {
+    colorscheme="red"
+  } else if (label === 'High Priority') {
+    colorscheme = 'pink'
+  } else {
+    colorscheme = 'teal'
+  }
+  async function update(id: number) {
+    try {
+      const updated = await fetch(`/api/tasks/`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: title,
+          description: team,
+          label: label,
+          authorId: author_id,
+          categoryId: id
+        })
+      })
+      pop()
+      return updated
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async function deletetask() {
+    setSelId(id)
+    try {
+      await fetch(`/api/tasks/${selId}`, {
+        method: "DELETE",
+      })
+      pop()
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <>
       <Box
@@ -52,10 +98,11 @@ const Taskcard = ({ title, team, progress, date, label }: taskcard) => {
               </Circle>
             </MenuButton>
             <MenuList>
-              <MenuItem>Download</MenuItem>
-              <MenuItem>Create a Copy</MenuItem>
-              <MenuItem>Mark as Draft</MenuItem>
-              <MenuItem color="red"> Delete </MenuItem>
+              <MenuItem icon={<MdOutlineEdit fontSize='18px'/>}>Edit</MenuItem>
+              <MenuItem icon={<IoMove fontSize='18px'/>} onClick={() => update(2)} >Move to W-I-P</MenuItem>
+              <MenuItem icon={<IoMove fontSize='18px'/>}  onClick={() => update(3)} >Move to Review </MenuItem>
+              <MenuItem onClick={() => update(4)} >Move to Completed</MenuItem>
+              <MenuItem color="red" onClick={deletetask}> Delete </MenuItem>
             </MenuList>
           </Menu>
         </Flex>
@@ -76,11 +123,11 @@ const Taskcard = ({ title, team, progress, date, label }: taskcard) => {
         <Box mt="18px">
           <Flex justifyContent="space-between" alignItems="center">
             <Tag> {d} </Tag>
-            <Tag> {label} </Tag>
-            <Stack direction="row" gap="2">
+            <Tag colorScheme={colorscheme}> {label} </Tag>
+            {/* <Stack direction="row" gap="2">
               <Box w="20px" h="20px" bg="yellow"></Box>
               <Box w="20px" h="20px" bg="green"></Box>
-            </Stack>
+            </Stack> */}
           </Flex>
         </Box>
       </Box>

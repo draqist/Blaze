@@ -18,7 +18,7 @@ import {
   Text,
   Textarea,
   useColorModeValue,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
@@ -105,6 +105,10 @@ const CardStack = (props: any) => {
               label={data.label}
               date={data.createdAt}
               progress={'2'}
+              id={data.id}
+              pop={rev}
+              k={id}
+              author_id={data.authorId}
             />
           </Stack>
         ))}
