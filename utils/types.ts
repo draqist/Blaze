@@ -27,6 +27,26 @@ export interface Usar {
   phoneNumber: string;
   image: string;
 }
+export interface Settings {
+  email: string;
+  password: string;
+  userName: string;
+  bio: string;
+  phoneNumber: string;
+  image: string;
+  fullName: string
+}
+
+
+export const settingsUser = {
+  userName: '',
+  email: '',
+  password: '',
+  bio: '',
+  phoneNumber: '',
+  image: '',
+  fullName: '',
+};
 export const initialUser = {
   userName: '',
   email: '',

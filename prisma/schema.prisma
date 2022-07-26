@@ -21,6 +21,7 @@ model User {
   userName String
   phoneNumber String
   tasks Task[]
+  fullName String?
   createdAt   DateTime  @default(now())
 }
 model Task {

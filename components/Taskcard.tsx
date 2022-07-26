@@ -39,7 +39,6 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
     progress: progress,
     date: date,
     label: label,
-    authorId: author_id
   })
   // @ts-ignore
   function handleEditModalInputs(e) {
@@ -51,7 +50,11 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
       const edittask = await fetch(`/api/tasks/${uid}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editedTasks),
+        body: JSON.stringify({
+          ...editedTasks,
+          authorId: author_id,
+          uid: uid
+        }),
       });
       console.log(edittask);
       onClose();

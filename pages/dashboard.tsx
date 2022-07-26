@@ -13,7 +13,7 @@ import Sidebar from '../components/Sidebar';
 import { Category } from '../utils/types';
 
 const Dashboard: NextPage = () => {
-  const bgcolor = useColorModeValue('white', 'black');
+  const bgcolor = useColorModeValue('white', '#1A202C');
   const [category, setCategory] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <Stack direction="row" bgColor={bgcolor} w={['100vw','',"100%"]}>
+    <Stack direction="row" bgColor={bgcolor} w={['100vw','',"100%"]} minH='100vh'>
       <Box pos="fixed" w={['0','','']}>
         <Sidebar />
       </Box>
@@ -39,6 +39,7 @@ const Dashboard: NextPage = () => {
         left={['0','',"50px"]}
         minWidth={['100%','',"calc(100vw - 60px)"]}
         p={['6px', '', '20px']}
+        h='100%'
       >
         <Navbar />
         <Box>

@@ -13,6 +13,15 @@ export default async function handler(
         // @ts-ignore
         email: user,
       },
+      select: {
+        email: true,
+        password: true,
+        bio: true,
+        image: true,
+        userName: true,
+        phoneNumber: true,
+        fullName: true,
+      }
     });
     return res.status(200).json(getuser);
   } catch (error) {

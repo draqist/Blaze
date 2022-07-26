@@ -6,10 +6,11 @@ import {
   IoSettingsOutline,
 } from 'react-icons/io5';
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
+import NextLink from 'next/link'
 
 const Sidebar = () => {
   const textcolor = useColorModeValue('white', 'black');
-  const bgcolor = useColorModeValue('black', 'white');
+  const bgcolor = useColorModeValue('#1A202C', 'white');
   return (
     <Stack
       direction="column"
@@ -24,10 +25,14 @@ const Sidebar = () => {
       py="20px"
     >
       <Circle p="6px" _hover={{ bgColor: '#9696969d', color: 'white' }}>
-        <MdOutlineSpaceDashboard fontWeight="100" />
+        <NextLink href='/dashboard'>
+          <MdOutlineSpaceDashboard fontWeight="100" />
+        </NextLink>
       </Circle>
       <Circle p="10px" _hover={{ bgColor: '#9696969d', color: 'white' }}>
-        <IoPersonOutline fontSize="20px" />
+        <NextLink href='/profile'>
+          <IoPersonOutline fontSize="20px" />
+        </NextLink>
       </Circle>
       <Circle p="10px" _hover={{ bgColor: '#9696969d', color: 'white' }}>
         <IoCalendarOutline fontSize="20px" />
@@ -36,7 +41,8 @@ const Sidebar = () => {
         <BiBarChartSquare />
       </Circle>
       <Circle p="10px" _hover={{ bgColor: '#9696969d', color: 'white' }}>
-        <IoSettingsOutline />
+        
+          <IoSettingsOutline />
       </Circle>
     </Stack>
   );

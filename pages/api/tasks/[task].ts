@@ -6,19 +6,26 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-    const {selId} = req.query
-    try {
-      const Delete = await prisma.task.delete({
-        where: {
-          // @ts-ignore
-          id : selId
-        },
-        select: {
-          title: true
-        }
-      })
-      return res.status(200).json({Delete, message: 'deleted the selected task'})
-    } catch (error) {
-      
+  const body = req.body
+  try {
+    const updateTask = await prisma.task.upsert({
+      where: {
+        id: body.uid
+      },
+      update: {
+        title: body.title,
+        description: body.description,
+        label: body.label,
+      },
+      create: {
+        title: body.title,
+        description: body.description,
+        label: body.label,
+        authorId: body.authorId
+      }
+    })
+    return res.status(200).json(updateTask)
+  } catch (error) {
+        console.log(error)
   }
 }

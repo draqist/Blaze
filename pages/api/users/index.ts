@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     return await createUser(req, res);
-  } else if (req.method === 'PATCH') {
+  } else if (req.method === 'PUT') {
     return await updateUser(req, res);
   } else {
     res.status(405).json({ message: 'Method is not allowed.' });
@@ -38,20 +38,32 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
 export const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body;
   try {
-    const updatedUser = await prisma.user.update({
+    const updatedUser = await prisma.user.upsert({
       where: {
-        email: 'abdullahabdulfatah526@gmail.com',
+        email: body.email,
       },
-      data: {
+      update: {
         email: body.email,
         password: body.password,
         bio: body.bio,
         image: body.image,
         userName: body.userName,
         phoneNumber: body.phoneNumber,
+        fullName: body.fullName,
       },
+      create: {
+        email: body.email,
+        password: body.password,
+        bio: body.bio,
+        image: body.image,
+        userName: body.userName,
+        phoneNumber: body.phoneNumber,
+        fullName: body.fullName,
+      }
     });
+    return res.status(200).json(updatedUser);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({message: "Error updating user"});
   }
 };

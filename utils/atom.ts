@@ -11,5 +11,8 @@ const UserInfo = atom({
     bio: '',
   },
 });
-
-export { UserInfo };
+const authEmail = atom({
+  key: 'authEmail',
+  default: ''
+})
+export { UserInfo, authEmail };
