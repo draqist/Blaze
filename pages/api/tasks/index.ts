@@ -84,7 +84,6 @@ export const updateTask = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
     res.status(200).json(updateTask);
-    console.log(res)
   } catch (error) {
     console.log(error);
     res.status(500).json({message: "Task could not be updated"});
@@ -94,14 +93,16 @@ export const deleteTask = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body
   console.log(body)
   try {
-    const updateTask = await prisma.task.delete({
+    const deletetask = await prisma.task.delete({
       where: {
         // @ts-ignore
         id: body.uid
       },
+      select: {
+        title: true,
+      }
     })
-    res.status(200).json(updateTask);
-    console.log(res)
+    res.status(200).json(deletetask);
   } catch (error) {
     console.log(error);
     res.status(500).json({message: "Task could not be updated"});

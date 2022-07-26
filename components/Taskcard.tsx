@@ -3,16 +3,28 @@ import {
   Button,
   Circle,
   Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Progress,
-  Stack,
-  Tag,
+  Select, Tag,
   Text,
+  Textarea,
+  useDisclosure
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
 import { IoMove } from 'react-icons/io5';
 import { MdOutlineEdit } from 'react-icons/md';
@@ -20,11 +32,36 @@ import { taskcard } from '../utils/types';
 
 const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }: taskcard) => {
   const d = new Date(date).toDateString();
-  const [selId, setSelId] = useState(uid)
-  const [catid, setCatId] = useState(1)
-  useEffect(() => {
-    console.log(selId)
-  }, [])
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [editedTasks, setEditedTask] = useState({
+    title: title,
+    description: team,
+    progress: progress,
+    date: date,
+    label: label,
+    authorId: author_id
+  })
+  // @ts-ignore
+  function handleEditModalInputs(e) {
+    const value = e.target.value
+    setEditedTask({...editedTasks, [e.target.name]: value})
+  }
+  async function createEditedTask() {
+    try {
+      const edittask = await fetch(`/api/tasks/${uid}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editedTasks),
+      });
+      console.log(edittask);
+      onClose();
+      return edittask;
+    } catch (error) {
+      return error;
+    } finally {
+      pop();
+    }
+  }
   let colorscheme;
   if (label === 'Critical') {
     colorscheme="red"
@@ -33,7 +70,7 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
   } else {
     colorscheme = 'teal'
   }
-  async function update(id: number) {
+  async function updatecategory(id: number) {
     try {
       const updated = await fetch(`/api/tasks/`, {
         method: "PUT",
@@ -47,10 +84,11 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
           uid: uid
         })
       })
-      pop()
       return updated
     } catch (error) {
       console.log(error)
+    } finally {
+      pop()
     }
   }
   async function deletetask(id: number) {
@@ -102,10 +140,10 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
               </Circle>
             </MenuButton>
             <MenuList>
-              <MenuItem icon={<MdOutlineEdit fontSize='18px'/>}>Edit</MenuItem>
-              <MenuItem icon={<IoMove fontSize='18px'/>} onClick={() => update(2)} >Move to W-I-P</MenuItem>
-              <MenuItem icon={<IoMove fontSize='18px'/>}  onClick={() => update(3)} >Move to Review </MenuItem>
-              <MenuItem onClick={() => update(4)} >Move to Completed</MenuItem>
+              <MenuItem icon={<MdOutlineEdit fontSize='18px'/>} onClick={onOpen}>Edit</MenuItem>
+              <MenuItem icon={<IoMove fontSize='18px'/>} onClick={() => updatecategory(2)} >Move to W-I-P</MenuItem>
+              <MenuItem icon={<IoMove fontSize='18px'/>}  onClick={() => updatecategory(3)} >Move to Review </MenuItem>
+              <MenuItem onClick={() => updatecategory(4)} >Move to Completed</MenuItem>
               <MenuItem color="red" onClick={()=> deletetask(uid)}> Delete </MenuItem>
             </MenuList>
           </Menu>
@@ -128,13 +166,74 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
           <Flex justifyContent="space-between" alignItems="center">
             <Tag> {d} </Tag>
             <Tag colorScheme={colorscheme}> {label} </Tag>
-            {/* <Stack direction="row" gap="2">
-              <Box w="20px" h="20px" bg="yellow"></Box>
-              <Box w="20px" h="20px" bg="green"></Box>
-            </Stack> */}
           </Flex>
         </Box>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontWeight="500">Add a new Task</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl isRequired>
+              <FormLabel fontWeight="400" mt="8px" fontFamily="Oswald">
+                Enter task title{' '}
+              </FormLabel>
+              <Input
+                type="text"
+                placeholder="Task title"
+                name="title"
+                value={editedTasks.title}
+                onChange={handleEditModalInputs}
+                variant="flushed"
+              />
+              <FormErrorMessage> Kindly add a task title </FormErrorMessage>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel fontWeight="400" mt="8px" fontFamily="Oswald">
+                Task description{' '}
+              </FormLabel>
+              <Textarea
+                placeholder="Add a short description"
+                resize="vertical"
+                name="description"
+                value={editedTasks.description}
+                onChange={handleEditModalInputs}
+              />
+              <FormErrorMessage>
+                {' '}
+                Kindly add a short description{' '}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel fontWeight="400" mt="8px" fontFamily="Oswald">
+                Label{' '}
+              </FormLabel>
+              <Select
+                name="label"
+                value={editedTasks.label}
+                placeholder="Choose a label"
+                onChange={handleEditModalInputs}
+              >
+                <option value={'Critical'}> Critical </option>
+                <option value={'High Priority'}> High Priority </option>
+                <option value={'Low Priority'}> Low Priority </option>
+              </Select>
+              <FormErrorMessage> Kindly add a label </FormErrorMessage>
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={createEditedTask}
+            >
+              Edit task
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
