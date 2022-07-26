@@ -97,15 +97,15 @@ const CardStack = (props: any) => {
             </Text>
           </Button>
         </Flex>
-        {task?.map((data: any) => (
-          <Stack key={data.id} direction="column" gap={'5'} py="5px">
+        {task?.map((data:any, id: any) => (
+          <Stack key={id} direction="column" gap={'5'} py="5px">
             <Taskcard
               title={data.title}
               team={data.description}
               label={data.label}
               date={data.createdAt}
               progress={'2'}
-              id={data.id}
+              uid={data.id}
               pop={rev}
               k={id}
               author_id={data.authorId}

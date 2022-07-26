@@ -18,9 +18,9 @@ import { IoMove } from 'react-icons/io5';
 import { MdOutlineEdit } from 'react-icons/md';
 import { taskcard } from '../utils/types';
 
-const Taskcard = ({ title, team, progress, date, label, id, pop, k, author_id }: taskcard) => {
+const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }: taskcard) => {
   const d = new Date(date).toDateString();
-  const [selId, setSelId] = useState(id)
+  const [selId, setSelId] = useState(uid)
   const [catid, setCatId] = useState(1)
   useEffect(() => {
     console.log(selId)
@@ -43,7 +43,8 @@ const Taskcard = ({ title, team, progress, date, label, id, pop, k, author_id }:
           description: team,
           label: label,
           authorId: author_id,
-          categoryId: id
+          categoryId: id,
+          uid: uid
         })
       })
       pop()
@@ -52,11 +53,14 @@ const Taskcard = ({ title, team, progress, date, label, id, pop, k, author_id }:
       console.log(error)
     }
   }
-  async function deletetask() {
-    setSelId(id)
+  async function deletetask(id: number) {
     try {
-      await fetch(`/api/tasks/${selId}`, {
+      await fetch('api/tasks', {
         method: "DELETE",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: id
+        })
       })
       pop()
     } catch (err) {
@@ -102,7 +106,7 @@ const Taskcard = ({ title, team, progress, date, label, id, pop, k, author_id }:
               <MenuItem icon={<IoMove fontSize='18px'/>} onClick={() => update(2)} >Move to W-I-P</MenuItem>
               <MenuItem icon={<IoMove fontSize='18px'/>}  onClick={() => update(3)} >Move to Review </MenuItem>
               <MenuItem onClick={() => update(4)} >Move to Completed</MenuItem>
-              <MenuItem color="red" onClick={deletetask}> Delete </MenuItem>
+              <MenuItem color="red" onClick={()=> deletetask(uid)}> Delete </MenuItem>
             </MenuList>
           </Menu>
         </Flex>

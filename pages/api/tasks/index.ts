@@ -12,6 +12,8 @@ export default async function handler(
     return await getTasks(req, res);
   } else if (req.method === 'PUT') {
     return await updateTask(req, res);
+  } else if (req.method === 'DELETE') {
+    return await deleteTask(req, res);
   }
   else {
     res.status(405).json({ message: 'Method is not allowed.' });
@@ -40,7 +42,9 @@ export const createTask = async (req: NextApiRequest, res: NextApiResponse) => {
 export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const Tasks = await prisma.category.findMany({
-      include: {
+      select: {
+        id: true,
+        title: true,
         tasks: {
           orderBy: {
             id: 'desc'
@@ -62,12 +66,11 @@ export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const updateTask = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body
-  console.log(body)
   try {
     const updateTask = await prisma.task.upsert({
       where: {
         // @ts-ignore
-        id: body.authorId
+        id: body.uid
       },
       update: {
         categoryId: body.categoryId
@@ -79,6 +82,23 @@ export const updateTask = async (req: NextApiRequest, res: NextApiResponse) => {
         authorId: body.authorId,
         categoryId: body.categoryId
       }
+    })
+    res.status(200).json(updateTask);
+    console.log(res)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message: "Task could not be updated"});
+  }
+}
+export const deleteTask = async (req: NextApiRequest, res: NextApiResponse) => {
+  const body = req.body
+  console.log(body)
+  try {
+    const updateTask = await prisma.task.delete({
+      where: {
+        // @ts-ignore
+        id: body.uid
+      },
     })
     res.status(200).json(updateTask);
     console.log(res)

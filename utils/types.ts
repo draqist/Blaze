@@ -14,7 +14,7 @@ export type taskcard = {
   progress: string;
   date: string;
   label: string;
-  id: number;
+  uid: number;
   pop: () => void;
   k: any;
   author_id: number
