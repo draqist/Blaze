@@ -23,6 +23,7 @@ model User {
   tasks Task[]
   fullName String?
   createdAt   DateTime  @default(now())
+  notes Note[]
 }
 model Task {
   id Int @id @default(autoincrement())
@@ -38,9 +39,27 @@ model Task {
 
   @@index([categoryId])
   }
+
 model Category {
   id Int @id @default(autoincrement())
   title String
   tasks Task[] 
 }
+model Notes {
+  id Int @id @default(autoincrement())
+  title String
+  notes Note[] 
+}
+model Note {
+  id Int @id @default(autoincrement())
+  title String
+  note String
+  label String
+  createdAt DateTime  @default(now())
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  notes Notes @relation(fields: [noteId], references:[id])
+  noteId Int @default(1)
 
+  @@index([noteId])
+}

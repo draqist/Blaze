@@ -17,7 +17,7 @@ export type taskcard = {
   uid: number;
   pop: () => void;
   k: any;
-  author_id: number
+  author_id: number;
 };
 export interface Usar {
   email: string;
@@ -34,9 +34,8 @@ export interface Settings {
   bio: string;
   phoneNumber: string;
   image: string;
-  fullName: string
+  fullName: string;
 }
-
 
 export const settingsUser = {
   userName: '',
@@ -73,6 +72,23 @@ export interface Task {
   createdAt: Date;
   // progress: Number;
 }
+export interface Note {
+  title: string;
+  note: string;
+  label: string;
+  authorId: Number;
+  noteId: Number;
+  createdAt: Date;
+}
+export const initialNote = {
+  title: '',
+  note: '',
+  label: '',
+  authorId: 1,
+  noteId: 1,
+  createdAt: new Date(),
+};
+
 export const initialTask = {
   title: '',
   description: '',
@@ -94,3 +110,8 @@ export type Category = {
   title: string;
   tasks: Task[];
 };
+export type Notes = {
+  id: Number;
+  title: string;
+  notes: Note[];
+}

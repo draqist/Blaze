@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -5,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from '../firebase.config.js';
+import { Note, initialNote } from './types.js';
 
 const SignUpwithGoogle = async () => {
   try {
@@ -70,4 +72,36 @@ const SignInwithEmail = async (
     setError({ state: true, message: error.message });
   }
 };
+async function getNotes() {
+  try {
+    const notes = await axios.get('/api/notes');
+    console.log(notes.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function createNewNote(
+  newNote: Note,
+  onClose: () => void,
+  setNewNote: () => void,
+  initialNote: any,
+) {
+  try {
+    const createnote = await fetch('/api/notes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newNote),
+    });
+    console.log(createnote);
+    onClose();
+    return createnote;
+  } catch (error) {
+    return error;
+  } finally {
+    // @ts-ignore
+    setNewNote(initialNote);
+    getNotes();
+  }
+}
 export { SignUpwithGoogle, SignUpwithEmail, SignInwithEmail };

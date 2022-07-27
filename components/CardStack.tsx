@@ -18,7 +18,7 @@ import {
   Text,
   Textarea,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
@@ -34,7 +34,7 @@ const CardStack = (props: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    if (id === 1) {
+    if (id === 5) {
       setDis('flex');
     } else {
       setDis('none');
@@ -61,7 +61,6 @@ const CardStack = (props: any) => {
     } finally {
       setTasks(initialTask);
       rev();
-      // setIs(false)
     }
   }
   return (
@@ -97,7 +96,7 @@ const CardStack = (props: any) => {
             </Text>
           </Button>
         </Flex>
-        {task?.map((data:any, id: any) => (
+        {task?.map((data: any, id: any) => (
           <Stack key={id} direction="column" gap={'5'} py="5px">
             <Taskcard
               title={data.title}
@@ -113,10 +112,15 @@ const CardStack = (props: any) => {
           </Stack>
         ))}
       </Stack>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        size={['sm', 'sm', 'xl']}
+      >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontWeight="500">Add a new Task</ModalHeader>
+          <ModalHeader fontWeight="500">Add a new task</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>

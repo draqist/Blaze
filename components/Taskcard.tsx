@@ -19,10 +19,11 @@ import {
   ModalHeader,
   ModalOverlay,
   Progress,
-  Select, Tag,
+  Select,
+  Tag,
   Text,
   Textarea,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
@@ -30,7 +31,16 @@ import { IoMove } from 'react-icons/io5';
 import { MdOutlineEdit } from 'react-icons/md';
 import { taskcard } from '../utils/types';
 
-const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }: taskcard) => {
+const Taskcard = ({
+  title,
+  team,
+  progress,
+  date,
+  label,
+  uid,
+  pop,
+  author_id,
+}: taskcard) => {
   const d = new Date(date).toDateString();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [editedTasks, setEditedTask] = useState({
@@ -39,11 +49,11 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
     progress: progress,
     date: date,
     label: label,
-  })
+  });
   // @ts-ignore
   function handleEditModalInputs(e) {
-    const value = e.target.value
-    setEditedTask({...editedTasks, [e.target.name]: value})
+    const value = e.target.value;
+    setEditedTask({ ...editedTasks, [e.target.name]: value });
   }
   async function createEditedTask() {
     try {
@@ -53,7 +63,7 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
         body: JSON.stringify({
           ...editedTasks,
           authorId: author_id,
-          uid: uid
+          uid: uid,
         }),
       });
       console.log(edittask);
@@ -67,16 +77,16 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
   }
   let colorscheme;
   if (label === 'Critical') {
-    colorscheme="red"
+    colorscheme = 'red';
   } else if (label === 'High Priority') {
-    colorscheme = 'pink'
+    colorscheme = 'pink';
   } else {
-    colorscheme = 'teal'
+    colorscheme = 'teal';
   }
   async function updatecategory(id: number) {
     try {
       const updated = await fetch(`/api/tasks/`, {
-        method: "PUT",
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: title,
@@ -84,28 +94,28 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
           label: label,
           authorId: author_id,
           categoryId: id,
-          uid: uid
-        })
-      })
-      return updated
+          uid: uid,
+        }),
+      });
+      return updated;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      pop()
+      pop();
     }
   }
   async function deletetask(id: number) {
     try {
       await fetch('api/tasks', {
-        method: "DELETE",
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id: id
-        })
-      })
-      pop()
+          id: id,
+        }),
+      });
+      pop();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
   return (
@@ -143,11 +153,31 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
               </Circle>
             </MenuButton>
             <MenuList>
-              <MenuItem icon={<MdOutlineEdit fontSize='18px'/>} onClick={onOpen}>Edit</MenuItem>
-              <MenuItem icon={<IoMove fontSize='18px'/>} onClick={() => updatecategory(2)} >Move to W-I-P</MenuItem>
-              <MenuItem icon={<IoMove fontSize='18px'/>}  onClick={() => updatecategory(3)} >Move to Review </MenuItem>
-              <MenuItem onClick={() => updatecategory(4)} >Move to Completed</MenuItem>
-              <MenuItem color="red" onClick={()=> deletetask(uid)}> Delete </MenuItem>
+              <MenuItem
+                icon={<MdOutlineEdit fontSize="18px" />}
+                onClick={onOpen}
+              >
+                Edit
+              </MenuItem>
+              <MenuItem
+                icon={<IoMove fontSize="18px" />}
+                onClick={() => updatecategory(2)}
+              >
+                Move to W-I-P
+              </MenuItem>
+              <MenuItem
+                icon={<IoMove fontSize="18px" />}
+                onClick={() => updatecategory(3)}
+              >
+                Move to Review{' '}
+              </MenuItem>
+              <MenuItem onClick={() => updatecategory(4)}>
+                Move to Completed
+              </MenuItem>
+              <MenuItem color="red" onClick={() => deletetask(uid)}>
+                {' '}
+                Delete{' '}
+              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>
@@ -227,11 +257,7 @@ const Taskcard = ({ title, team, progress, date, label, uid, pop, k, author_id }
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={createEditedTask}
-            >
+            <Button colorScheme="blue" mr={3} onClick={createEditedTask}>
               Edit task
             </Button>
           </ModalFooter>

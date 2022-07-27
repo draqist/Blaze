@@ -61,7 +61,14 @@ const Signup = () => {
     }
   }
   return (
-    <Center as={motion.div} initial={{opacity: 1}} animate={{opacity: 1, transition:{duration: 2000}}} exit={{opacity: 0}} w="100vw" h="100vh">
+    <Center
+      as={motion.div}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1, transition: { duration: 2000 } }}
+      exit={{ opacity: 0 }}
+      w="100vw"
+      h="100vh"
+    >
       <Box
         w={['calc(100vw - 40px)', '', '800px']}
         textAlign="center"

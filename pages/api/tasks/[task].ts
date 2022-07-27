@@ -6,11 +6,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const body = req.body
+  const body = req.body;
   try {
     const updateTask = await prisma.task.upsert({
       where: {
-        id: body.uid
+        id: body.uid,
       },
       update: {
         title: body.title,
@@ -21,11 +21,11 @@ export default async function handler(
         title: body.title,
         description: body.description,
         label: body.label,
-        authorId: body.authorId
-      }
-    })
-    return res.status(200).json(updateTask)
+        authorId: body.authorId,
+      },
+    });
+    return res.status(200).json(updateTask);
   } catch (error) {
-        console.log(error)
+    console.log(error);
   }
 }

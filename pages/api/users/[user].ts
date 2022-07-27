@@ -21,7 +21,7 @@ export default async function handler(
         userName: true,
         phoneNumber: true,
         fullName: true,
-      }
+      },
     });
     return res.status(200).json(getuser);
   } catch (error) {

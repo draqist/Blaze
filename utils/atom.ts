@@ -13,6 +13,6 @@ const UserInfo = atom({
 });
 const authEmail = atom({
   key: 'authEmail',
-  default: ''
-})
+  default: '',
+});
 export { UserInfo, authEmail };

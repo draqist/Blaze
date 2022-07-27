@@ -7,44 +7,43 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    return await createTask(req, res);
+    return await createNote(req, res);
   } else if (req.method === 'GET') {
-    return await getTasks(req, res);
+    return await getNotes(req, res);
   } else if (req.method === 'PUT') {
-    return await updateTask(req, res);
+    return await updateNotes(req, res);
   } else if (req.method === 'DELETE') {
-    return await deleteTask(req, res);
+    return await deleteNotes(req, res);
   } else {
     res.status(405).json({ message: 'Method is not allowed.' });
   }
 }
 
-export const createTask = async (req: NextApiRequest, res: NextApiResponse) => {
+export const createNote = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body;
   try {
-    const createdTask = await prisma.task.create({
+    const createdNote = await prisma.note.create({
       data: {
         title: body.title,
-        description: body.description,
+        note: body.note,
         label: body.label,
         authorId: body.authorId,
-        categoryId: body.categoryId,
-        // dueDate: body.dueDate,
+        noteId: body.noteId,
       },
     });
-    return res.status(200).json(createdTask);
+    return res.status(200).json(createdNote);
   } catch (error) {
     return res.status(500).json({ message: 'Could not create task' });
   }
 };
 
-export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
+export const getNotes = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const Tasks = await prisma.category.findMany({
+    const Tasks = await prisma.notes.findMany({
       select: {
         id: true,
         title: true,
-        tasks: {
+        notes: {
           orderBy: {
             id: 'desc',
           },
@@ -53,46 +52,53 @@ export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
       orderBy: {
         id: 'asc',
       },
+      take:4
     });
     return res.status(200).json(Tasks);
   } catch (err) {
     console.log(err);
     return res
       .status(500)
-      .json({ error: "Couldn't fetch tasks from the database" });
+      .json({ error: "Couldn't fetch notes from the database" });
   }
 };
 
-export const updateTask = async (req: NextApiRequest, res: NextApiResponse) => {
+export const updateNotes = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
   const body = req.body;
   try {
-    const updateTask = await prisma.task.upsert({
+    const updateNotes = await prisma.note.upsert({
       where: {
         // @ts-ignore
         id: body.uid,
       },
       update: {
-        categoryId: body.categoryId,
+        noteId: body.noteId,
       },
       create: {
         title: body.title,
-        description: body.description,
+        note: body.note,
         label: body.label,
         authorId: body.authorId,
-        categoryId: body.categoryId,
+        noteId: body.noteId,
       },
     });
-    res.status(200).json(updateTask);
+    res.status(200).json(updateNotes);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Task could not be updated' });
   }
 };
-export const deleteTask = async (req: NextApiRequest, res: NextApiResponse) => {
+export const deleteNotes = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
   const body = req.body;
   console.log(body);
   try {
-    const deletetask = await prisma.task.delete({
+    const deleteNotes = await prisma.task.delete({
       where: {
         // @ts-ignore
         id: body.uid,
@@ -101,7 +107,7 @@ export const deleteTask = async (req: NextApiRequest, res: NextApiResponse) => {
         title: true,
       },
     });
-    res.status(200).json(deletetask);
+    res.status(200).json(deleteNotes);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Task could not be updated' });

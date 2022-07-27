@@ -1,8 +1,4 @@
-import {
-  Button,
-  useColorMode,
-  useColorModeValue
-} from '@chakra-ui/react';
+import { Button, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 export const ColorModeSwitcher = (props: any) => {
@@ -18,13 +14,13 @@ export const ColorModeSwitcher = (props: any) => {
       color="current"
       // p="14px"
       borderRadius="50%"
-      w={['28px','',"40px"]}
-      h={['28px','',"40px"]}
+      w={['28px', '', '40px']}
+      h={['28px', '', '40px']}
       onClick={toggleColorMode}
       {...props}
       fontWeight="400"
       __active={{ outline: 'none' }}
-      fontSize={['28px','','']}
+      fontSize={['28px', '', '']}
     >
       <SwitchIcon />
     </Button>
