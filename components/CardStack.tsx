@@ -34,7 +34,7 @@ const CardStack = (props: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    if (id === 5) {
+    if (id === 1) {
       setDis('flex');
     } else {
       setDis('none');
@@ -77,7 +77,7 @@ const CardStack = (props: any) => {
         borderStyle="dashed"
         borderRadius="16px"
       >
-        <Flex justifyContent="space-between" alignItems="center" mb="10px">
+        <Flex justifyContent="space-between" alignItems="center">
           <Text mb="6px"> {title} </Text>
 
           <Button

@@ -38,7 +38,9 @@ const Sidebar = () => {
         <IoCalendarOutline fontSize="20px" />
       </Circle>
       <Circle p="10px" _hover={{ bgColor: '#9696969d', color: 'white' }}>
-        <BiBarChartSquare />
+        <NextLink href='/notes'>
+          <BiBarChartSquare />
+        </NextLink>
       </Circle>
       <Circle p="10px" _hover={{ bgColor: '#9696969d', color: 'white' }}>
         <IoSettingsOutline />

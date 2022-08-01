@@ -101,7 +101,7 @@ const Signup = () => {
         </Box>
         <Button mt="16px" w="100%" onClick={handleLogIn}>
           {' '}
-          Sign Up{' '}
+          Sign In{' '}
         </Button>
         <Box textAlign="center" w="100%">
           or

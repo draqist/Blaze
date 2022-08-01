@@ -27,7 +27,7 @@ export const createTask = async (req: NextApiRequest, res: NextApiResponse) => {
         title: body.title,
         description: body.description,
         label: body.label,
-        authorId: body.authorId,
+        // authorId: body.authorId,
         categoryId: body.categoryId,
         // dueDate: body.dueDate,
       },
@@ -78,7 +78,7 @@ export const updateTask = async (req: NextApiRequest, res: NextApiResponse) => {
         title: body.title,
         description: body.description,
         label: body.label,
-        authorId: body.authorId,
+        // authorId: body.authorId,
         categoryId: body.categoryId,
       },
     });

@@ -1,5 +1,5 @@
 const projectdescription =
-  "Blaze is a project management system,  built with Nextjs in Typescript, Firebase (Planetscale) for database management and Recoil and recoil for state management. It's a desktop-oriented web application with duo-theming that allows users organize their tasks, priorities and schedules.";
+  "Blaze is a project management system,  built with Nextjs in Typescript, Firebase for authentication,  Planetscale for database management and Recoil and recoil for state management. It's a desktop-oriented web application with duo-theming that allows users organize their tasks, priorities and schedules.";
 
 const letter = {
   hidden: { opacity: 0, y: 50, color: '#718' },
