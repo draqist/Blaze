@@ -27,7 +27,6 @@ export const createTask = async (req: NextApiRequest, res: NextApiResponse) => {
         title: body.title,
         description: body.description,
         label: body.label,
-        // authorId: body.authorId,
         categoryId: body.categoryId,
         // dueDate: body.dueDate,
       },
@@ -39,6 +38,7 @@ export const createTask = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
+  const  body = req.body;
   try {
     const Tasks = await prisma.category.findMany({
       select: {
@@ -78,7 +78,6 @@ export const updateTask = async (req: NextApiRequest, res: NextApiResponse) => {
         title: body.title,
         description: body.description,
         label: body.label,
-        // authorId: body.authorId,
         categoryId: body.categoryId,
       },
     });

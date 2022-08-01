@@ -41,7 +41,7 @@ const Navbar = () => {
 
         // @ts-ignore
         console.log(displayName);
-        console.log(email);
+        console.log(ver);
         // @ts-ignore
         getUser(userCred.email);
       }

@@ -101,7 +101,6 @@ const Profile = () => {
       direction={['column', 'column', 'row']}
       w={['100vw', '', '100%']}
       minH="100vh"
-      alignItems="center"
     >
       <Box pos="fixed" display={['none', 'none', 'block']} w={['0', '', '']}>
         <Sidebar />
@@ -109,18 +108,18 @@ const Profile = () => {
       <BottomNav/>
       <Box
         pos="relative"
-        left={['0', '', '52px', '0px', '200px']}
-        minWidth={[
+        left={['0', '', '52px', '0px', '60px']}
+        w={[
           '100%',
           '',
           'calc(100vw - 60px)',
           'calc(100vw - 60px)',
-          'calc(100vw - 60px)',
+          'calc(100vw - 200px)',
         ]}
-        p={['20px', '', '20px', '130px', '60px']}
+        px={['20px', '', '20px', '130px', '200px']}
         py={['40px', '', '20px', '130px', '60px']}
-        h="100%"
         m="0"
+        h='100%'
       >
         <Center
           w={[

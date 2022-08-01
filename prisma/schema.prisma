@@ -20,7 +20,7 @@ model User {
   image String
   userName String
   phoneNumber String
-  tasks Task[]
+  category Category[]
   fullName String?
   createdAt   DateTime  @default(now())
   notes Note[]
@@ -31,8 +31,6 @@ model Task {
   description String
   label String
   createdAt DateTime  @default(now())
-  author User @relation(fields: [authorId], references: [id])
-  authorId Int
   dueDate DateTime  @default(now())
   category Category @relation(fields: [categoryId], references:[id])
   categoryId Int @default(1)
@@ -44,6 +42,8 @@ model Category {
   id Int @id @default(autoincrement())
   title String
   tasks Task[] 
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
 }
 model Notes {
   id Int @id @default(autoincrement())

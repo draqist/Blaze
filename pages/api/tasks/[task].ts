@@ -21,7 +21,7 @@ export default async function handler(
         title: body.title,
         description: body.description,
         label: body.label,
-        authorId: body.authorId,
+        // authorId: body.authorId,
       },
     });
     return res.status(200).json(updateTask);

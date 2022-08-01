@@ -1,25 +1,46 @@
 import { Box, Flex, Stack, useColorModeValue } from '@chakra-ui/react';
 import axios from 'axios';
+import { onAuthStateChanged } from 'firebase/auth';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import BottomNav from '../components/BottomNav';
 import CardStack from '../components/CardStack';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import { auth } from '../firebase.config';
+import { authEmail } from '../utils/atom';
 import { Category } from '../utils/types';
 
 const Dashboard: NextPage = () => {
   const bgcolor = useColorModeValue('white', '#1A202C');
   const [category, setCategory] = useState<Category[]>([]);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
-    getTasks();
+    onAuthStateChanged(auth, (userCred) => {
+      if (userCred) {
+        // @ts-ignore
+        setEmail(userCred.email);
+        // @ts-ignore
+        getTasks(userCred.email);
+      }
+    });
   }, []);
-  async function getTasks() {
+  async function getTasks(email: string) {
     try {
-      const dew = await axios.get('/api/tasks');
+      const dew = await axios({
+        method: 'post',
+        url: '/api/usertasks',
+        data: {
+          email
+        }
+      });
+      console.log(category, "before checking data")
       console.log(dew.data);
+      console.log(category, "after checking data")
       setCategory(dew.data);
+      console.log(category, "after setting data")
     } catch (error) {
       console.log(error);
     }
