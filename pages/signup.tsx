@@ -46,18 +46,19 @@ const Signup = () => {
       position: 'top',
     });
   async function handleSignUp() {
-    SignUpwithEmail(userInfo.email, userInfo.password, setError, Redirect);
     try {
       const RegUser = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userInfo),
       });
-      console.log(RegUser);
+      SignUpwithEmail(userInfo.email, userInfo.password, setError, Redirect);
       return RegUser;
     } catch (error) {
       // @ts-ignore
       console.log(error.message);
+      // @ts-ignore
+      setError({state: true, message: error.message});
     }
   }
   return (

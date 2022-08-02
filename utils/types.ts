@@ -18,6 +18,7 @@ export type taskcard = {
   pop: () => void;
   k: any;
   author_id: number;
+  calc:number
 };
 export interface Usar {
   email: string;

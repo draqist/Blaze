@@ -29,6 +29,8 @@ import { useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
 import { IoMove } from 'react-icons/io5';
 import { MdOutlineEdit } from 'react-icons/md';
+import { useRecoilValue } from 'recoil';
+import { authEmail } from '../utils/atom';
 import { taskcard } from '../utils/types';
 
 const Taskcard = ({
@@ -40,9 +42,11 @@ const Taskcard = ({
   uid,
   pop,
   author_id,
+  calc
 }: taskcard) => {
   const d = new Date(date).toDateString();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const e = useRecoilValue(authEmail)
   const [editedTasks, setEditedTask] = useState({
     title: title,
     description: team,
@@ -63,10 +67,9 @@ const Taskcard = ({
         body: JSON.stringify({
           ...editedTasks,
           authorId: author_id,
-          uid: uid,
+          uid
         }),
       });
-      console.log(edittask);
       onClose();
       return edittask;
     } catch (error) {
@@ -101,7 +104,7 @@ const Taskcard = ({
     } catch (error) {
       console.log(error);
     } finally {
-      pop();
+      pop(e);
     }
   }
   async function deletetask(id: number) {
@@ -161,17 +164,17 @@ const Taskcard = ({
               </MenuItem>
               <MenuItem
                 icon={<IoMove fontSize="18px" />}
-                onClick={() => updatecategory(2)}
+                onClick={() => updatecategory(calc + 1)}
               >
                 Move to W-I-P
               </MenuItem>
               <MenuItem
                 icon={<IoMove fontSize="18px" />}
-                onClick={() => updatecategory(3)}
+                onClick={() => updatecategory(calc + 2)}
               >
                 Move to Review{' '}
               </MenuItem>
-              <MenuItem onClick={() => updatecategory(4)}>
+              <MenuItem onClick={() => updatecategory(calc + 3)}>
                 Move to Completed
               </MenuItem>
               <MenuItem color="red" onClick={() => deletetask(uid)}>

@@ -3,25 +3,22 @@ import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import BottomNav from '../components/BottomNav';
 import CardStack from '../components/CardStack';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { auth } from '../firebase.config';
-import { authEmail } from '../utils/atom';
 import { Category } from '../utils/types';
 
 const Dashboard: NextPage = () => {
   const bgcolor = useColorModeValue('white', '#1A202C');
   const [category, setCategory] = useState<Category[]>([]);
-  const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState<Number>();
+  
 
   useEffect(() => {
     onAuthStateChanged(auth, (userCred) => {
       if (userCred) {
-        // @ts-ignore
-        setEmail(userCred.email);
         // @ts-ignore
         getTasks(userCred.email);
       }
@@ -36,11 +33,11 @@ const Dashboard: NextPage = () => {
           email
         }
       });
-      console.log(category, "before checking data")
-      console.log(dew.data);
-      console.log(category, "after checking data")
-      setCategory(dew.data);
-      console.log(category, "after setting data")
+      const res = dew.data.category;
+      const id = dew.data.id
+      setUserId(id)
+      console.log(userId)
+      return setCategory(res);
     } catch (error) {
       console.log(error);
     }
@@ -87,6 +84,7 @@ const Dashboard: NextPage = () => {
                 task={data.tasks}
                 id={data.id}
                 rev={getTasks}
+                uid={userId}
               />
             ))}
           </Flex>

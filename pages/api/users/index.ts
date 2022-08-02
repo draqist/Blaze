@@ -18,7 +18,6 @@ export default async function handler(
 export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body;
   try {
-    console.log(body);
     const newUser = await prisma.user.create({
       data: {
         email: body.email,
@@ -27,12 +26,30 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
         image: body.image,
         userName: body.userName,
         phoneNumber: body.phoneNumber,
+        category: {
+          createMany: {
+            data: [
+              {
+                title: 'To-Do',
+              },
+              {
+                title: 'Work-in-progress',
+              },
+              {
+                title: 'Review',
+              },
+              {
+                title: 'Completed',
+              },
+            ]
+          }
+        }
       },
     });
     return res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: 'Error creating user' });
+    return res.status(500).json({ error });
   }
 };
 export const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {

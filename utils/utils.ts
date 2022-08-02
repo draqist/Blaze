@@ -22,30 +22,18 @@ const SignUpwithEmail = async (
   setError: any,
   Redirect: () => void,
 ) => {
-  const actionCodeSettings = {
-    url: 'http://localhost:3000/dashboard',
-    iOS: {
-      bundleId: 'com.example.ios',
-    },
-    android: {
-      packageName: 'com.example.android',
-      installApp: true,
-      minimumVersion: '12',
-    },
-    handleCodeInApp: false,
-  };
 
   try {
     await createUserWithEmailAndPassword(auth, email, password).then(
       (userMeta) => {
         if (userMeta) {
-          Redirect();
+        
         } else {
           setError({ state: true, message: 'Error logging in' });
         }
       },
     );
-    // await sendEmailVerification(newUser.user)
+    Redirect();
   } catch (error) {
     // @ts-ignore
     setError({ state: true, message: error.message });

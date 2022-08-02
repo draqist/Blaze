@@ -21,6 +21,7 @@ export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
         email,
       },
       select: {
+        id: true,
         category: {
           orderBy: {
             id: "asc"

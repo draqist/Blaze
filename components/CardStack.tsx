@@ -22,19 +22,22 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
+import { useRecoilValue } from 'recoil';
+import { authEmail } from '../utils/atom';
 import { initialTask, Task } from '../utils/types';
 import Taskcard from './Taskcard';
 
 const CardStack = (props: any) => {
-  const { title, task, id, rev } = props;
+  const { title, task, id, rev, uid } = props;
   const textcolor = useColorModeValue('black', 'white');
   const [newTask, setTasks] = useState<Task>(initialTask);
   const [dis, setDis] = useState('');
   const [is, setIs] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const em = useRecoilValue(authEmail)
 
   useEffect(() => {
-    if (id === 1) {
+    if (id === calcId()) {
       setDis('flex');
     } else {
       setDis('none');
@@ -46,12 +49,20 @@ const CardStack = (props: any) => {
     setTasks({ ...newTask, [e.target.name]: value });
   }
 
+  function calcId() {
+    let userid
+    return userid = (1 + ((uid-1) * 4))
+  }
+
   async function createNewTask() {
     try {
       const createtask = await fetch('/api/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTask),
+        body: JSON.stringify({
+          ...newTask,
+          categoryId: uid
+        }),
       });
       console.log(createtask);
       onClose();
@@ -60,7 +71,7 @@ const CardStack = (props: any) => {
       return error;
     } finally {
       setTasks(initialTask);
-      rev();
+      rev(em);
     }
   }
   return (
@@ -108,6 +119,7 @@ const CardStack = (props: any) => {
               pop={rev}
               k={id}
               author_id={data.authorId}
+              calc= {calcId()}
             />
           </Stack>
         ))}

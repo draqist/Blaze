@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    return await createTask(req, res);
+    return 
   } else if (req.method === 'GET') {
     return await getTasks(req, res);
   }
@@ -27,21 +27,3 @@ export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export const createTask = async (req: NextApiRequest, res: NextApiResponse) => {
-  const body = req.body;
-  try {
-    const createdTask = await prisma.task.create({
-      data: {
-        title: body.title,
-        description: body.description,
-        label: body.label,
-        authorId: body.author_id,
-        dueDate: body.dueDate,
-      },
-    });
-    console.log(res);
-    return res.status(200).json(createdTask);
-  } catch (error) {
-    return res.status(500).json({ message: 'Could not create task' });
-  }
-};
