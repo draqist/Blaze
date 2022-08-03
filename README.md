@@ -13,7 +13,7 @@ Example
 - **`git checkout -b featCalendar`** for a calender feature.
 - **`git checkout -b fixdeploymenterror`** for a deployment error fix.
 
-- **Run `yarn dev` to start the project on your local host**.
+- **Run `yarn dev` or `npm run dev` (npm users) to start the project on your local host**.
 - **Push your changes to your repo.**
 - **Submit changes**
 If you go to your repository on GitHub and refresh the page, you'll see a Compare and pull request button. Click on that button.
