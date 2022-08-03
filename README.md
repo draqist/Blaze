@@ -10,8 +10,8 @@ In order for you to perform this step, you must have Git installed locally in yo
 - **Checkout to a branch with `git chechkout -b <branchname>`**
 #### Note: your branch name must begin with either `feat` if you're creating a new feature or `fix` if you're making a fix.
 Example
-- **git checkout -b featCalendar** for a calender feature.
-- **git checkout -b fixdeploymenterror** for a deployment error fix.
+- **`git checkout -b featCalendar`** for a calender feature.
+- **`git checkout -b fixdeploymenterror`** for a deployment error fix.
 
 - **Push your changes to your repo.**
 - **Submit changes**
