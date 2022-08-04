@@ -114,7 +114,7 @@ const CardStack = (props: any) => {
               team={data.description}
               label={data.label}
               date={data.createdAt}
-              progress={'2'}
+              progress={'0'}
               uid={data.id}
               pop={rev}
               k={id}
