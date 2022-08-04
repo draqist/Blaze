@@ -10,9 +10,10 @@ In order for you to perform this step, you must have Git installed locally in yo
 - **Checkout to a branch with `git chechkout -b <branchname>`**
 #### Note: your branch name must begin with either `feat` if you're creating a new feature or `fix` if you're making a fix.
 Example
-- **git checkout -b featCalendar** for a calender feature.
-- **git checkout -b fixdeploymenterror** for a deployment error fix.
+- **`git checkout -b featCalendar`** for a calender feature.
+- **`git checkout -b fixdeploymenterror`** for a deployment error fix.
 
+- **Run `yarn dev` or `npm run dev` (npm users) to start the project on your local host**.
 - **Push your changes to your repo.**
 - **Submit changes**
 If you go to your repository on GitHub and refresh the page, you'll see a Compare and pull request button. Click on that button.
