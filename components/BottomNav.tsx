@@ -17,6 +17,7 @@ const BottomNav = () => {
         pos="fixed"
         bottom="0"
         bg={bgcolor}
+        marginInlineStart='0'
       >
         <Flex
           justifyContent="space-between"
@@ -29,14 +30,18 @@ const BottomNav = () => {
           <NextLink href="/dashboard">
             <MdOutlineSpaceDashboard fontWeight="100" fontSize="20px" />
           </NextLink>
-          <NextLink href="/profile">
-            <IoPersonOutline fontSize="20px" />
-          </NextLink>
           <NextLink href="/notes">
             <BiBarChartSquare fontSize="20px" />
           </NextLink>
-          <IoCalendarOutline fontSize="20px" />
+          <NextLink href="/profile">
+            <IoPersonOutline fontSize="20px" />
+          </NextLink>
+          <NextLink href="/calendar">
+            <IoCalendarOutline fontSize="20px" />
+        </NextLink>
+        <NextLink href='/settings'>
           <IoSettingsOutline fontSize="20px" />
+        </NextLink>
         </Flex>
       </Box>
   )

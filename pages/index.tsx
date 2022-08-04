@@ -43,7 +43,7 @@ const Home: NextPage = () => {
         viewport={{ once: true }}
         pos="absolute"
         bottom={['80px', '', '140px', '90px', '40px']}
-        w={['calc(100% -40px', '', '700px']}
+        w={['calc(100% -40px', '', '']}
         px={['', '', '0']}
       >
         {projectdescription.split('').map((char, index) => {

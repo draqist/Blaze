@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Circle,
   Flex, FormControl, FormErrorMessage, FormLabel, Grid, Heading, Input, Modal,
   ModalBody,
@@ -12,52 +13,81 @@ import {
   Text, Textarea, useColorModeValue, useDisclosure
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
+import { useRecoilValue } from 'recoil';
 import BottomNav from '../components/BottomNav';
 import Navbar from '../components/Navbar';
 import NoteStack from '../components/NoteStack';
 import Sidebar from '../components/Sidebar';
+import { auth } from '../firebase.config';
+import { authEmail } from '../utils/atom';
 import { initialNote, Note, Notes } from '../utils/types';
 
 const Notes = () => {
   const bgcolor = useColorModeValue('white', '#1A202C');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const e = useRecoilValue(authEmail)
   const [newNote, setNewNote] = useState<Note>(initialNote);
-  const [notes, setNotes] = useState<Notes[]>([]);
+  const [notescategory, setNotes] = useState<Notes[]>([]);
+  const [userId, setUserId] = useState<Number>();
   useEffect(() => {
-    getNotes()
+    onAuthStateChanged(auth, (userCred) => {
+      if (userCred) {
+        // @ts-ignore
+        getNotes(userCred.email)
+      }
+    });
   },[])
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
     setNewNote({ ...newNote, [e.target.name]: value });
   }
-  async function getNotes() {
+  async function getNotes(email: string) {
     try {
-      const notes = await axios.get('/api/notes');
-      console.log(notes.data);
-      setNotes(notes.data);
+      const dew = await axios({
+        method: 'post',
+        url: '/api/usernotes',
+        data: {
+          email: email
+        }
+      });
+      const res = dew.data.notes;
+      const id = dew.data.id
+      setUserId(id)
+      return setNotes(res);
     } catch (error) {
-      console.log(error);
+      // @ts-ignore
+      console.log(error.message);
     }
   }
-
+  function calcId() {
+    let userid
+    console.log(userId)
+    // @ts-ignore
+    return userid = (1 + ((userId-1) * 3))
+  }
   async function createNewNote() {
     try {
       const createnote = await fetch('/api/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newNote),
+        body: JSON.stringify({
+          ...newNote,
+          noteId: calcId()
+        }),
       });
       console.log(createnote);
       onClose();
       return createnote;
     } catch (error) {
-      return error;
+      // @ts-ignore
+      console.log(error.message);
     } finally {
       setNewNote(initialNote);
-      getNotes();
+      getNotes(e);
     }
   }
 
@@ -96,13 +126,13 @@ const Notes = () => {
               // display={dis}
               variant="solid"
               _active={{ outline: '0' }}
-              size="md"
+              size={['sm','sm',"md"]}
               onClick={onOpen}
             >
               <Circle border="1px solid #d8d8d8" size="24px">
                 <FaPlus fontSize="10px" />
               </Circle>
-              <Text ml="14px" fontWeight="400" fontSize="20px">
+              <Text ml={['6px','',"14px"]} fontWeight="400" fontSize={['16px','14px',"20px"]}>
                 {' '}
                 Add a note{' '}
               </Text>
@@ -120,22 +150,29 @@ const Notes = () => {
             w={['100vw', '', 'calc(100vw - 100px)']}
           >
             {
-              notes?.map((note, id) => (
+              notescategory?.map((notesection, id) => (
                 <Box key={id} w='100%'>
-                  <Heading> {note.title}</Heading>
-                  <Grid
-                    templateColumns={['repeat(1, 1fr)','','repeat(2, 1fr)','repeat(2, 1fr)','repeat(3, 1fr)']}
-                    // wrap="wrap"
-                    gap={['1','',"4","4","8"]}
-                    alignItems="flex-start"
-                    w='100%'
-                  >
-                    {
-                    note.notes.map((note, id) => (
-                      <NoteStack key={id} title={note.title} label={note.label} note={note.note} authorId={note.authorId} noteId={note.noteId} createdAt={note.createdAt} />
-                    ))
-                  }
-                  </Grid>
+                  <Heading mt='8px'> {notesection.title}</Heading>
+                  <Box w='100%'  mt = '10px' px={['8px','','','','24px']} py={['4px','','','','20px']} border='1px solid #d8d8d8' borderRadius='20px' minHeight='200px'>
+                    <Grid
+                      templateColumns={['repeat(1, 1fr)','','repeat(2, 1fr)','repeat(2, 1fr)','repeat(2, 1fr)']}
+                      // wrap="wrap"
+                      gap={['1','',"4","4","4"]}
+                      alignItems="flex-start"
+                      w='100%'
+                    >
+                      {
+                        notesection.notes.length === 0 ?
+                          <Center w='100%' minH='200px'>
+                            <Text fontSize='20px'>There are no notes here yet.😊</Text>
+                          </Center> :
+                        notesection.notes.map((notedata, id) => (
+                        <NoteStack reload={getNotes} key = {id} title={notedata.title} label={notedata.label} id={notedata.id} noteId={notedata.noteId} note={notedata.note} dOc={notedata.createdAt} />
+                      ))
+                    }
+                    </Grid>
+
+                  </Box>
                 </Box>
               ))
             }

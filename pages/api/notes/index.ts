@@ -8,9 +8,7 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     return await createNote(req, res);
-  } else if (req.method === 'GET') {
-    return await getNotes(req, res);
-  } else if (req.method === 'PUT') {
+  }  else if (req.method === 'PUT') {
     return await updateNotes(req, res);
   } else if (req.method === 'DELETE') {
     return await deleteNotes(req, res);
@@ -27,39 +25,12 @@ export const createNote = async (req: NextApiRequest, res: NextApiResponse) => {
         title: body.title,
         note: body.note,
         label: body.label,
-        authorId: body.authorId,
         noteId: body.noteId,
       },
     });
     return res.status(200).json(createdNote);
   } catch (error) {
     return res.status(500).json({ message: 'Could not create task' });
-  }
-};
-
-export const getNotes = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const Tasks = await prisma.notes.findMany({
-      select: {
-        id: true,
-        title: true,
-        notes: {
-          orderBy: {
-            id: 'desc',
-          },
-        },
-      },
-      orderBy: {
-        id: 'asc',
-      },
-      take:4
-    });
-    return res.status(200).json(Tasks);
-  } catch (err) {
-    console.log(err);
-    return res
-      .status(500)
-      .json({ error: "Couldn't fetch notes from the database" });
   }
 };
 
@@ -72,16 +43,18 @@ export const updateNotes = async (
     const updateNotes = await prisma.note.upsert({
       where: {
         // @ts-ignore
-        id: body.uid,
+        id: body.id,
       },
       update: {
         noteId: body.noteId,
+        title: body.title,
+        note: body.notebody,
+        label: body.label,
       },
       create: {
         title: body.title,
-        note: body.note,
+        note: body.notebody,
         label: body.label,
-        authorId: body.authorId,
         noteId: body.noteId,
       },
     });

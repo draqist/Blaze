@@ -7,43 +7,51 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    return await getTasks(req, res);
+    return await getNotes(req, res);
   } else {
-  res.status(405).json({ message: 'Method is not allowed.' });
+    res.status(405).json({ message: 'Method is not allowed.' });
   }
 }
 
-export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
+export const getNotes = async (req: NextApiRequest, res: NextApiResponse) => {
   const  {email} = req.body;
   try {
-    const tasks = await prisma.user.findUnique({
+    const Tasks = await prisma.user.findUnique({
       where: {
         email,
       },
       select: {
         id: true,
-        category: {
+        notes: {
           orderBy: {
-            id: "asc"
+            id: "asc",
           },
           select: {
             id: true,
             title: true,
-            tasks: {
+            notes: {
               orderBy: {
-                id: "desc"
+                id: "desc",
               },
+              select: {
+                id: true,
+                title: true,
+                note: true,
+                createdAt: true,
+                label: true,
+                noteId: true,
+              }
             },
             authorId: true
           }
-        },
+        }
       }
-    })
-    return res.status(200).json(tasks);
+    });
+    return res.status(200).json(Tasks);
   } catch (err) {
     console.log(err);
     return res
       .status(500)
-      .json({ error: "Couldn't fetch tasks from the database" });
+      .json({ error: "Couldn't fetch notes from the database" });
   }
 };

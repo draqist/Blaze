@@ -43,6 +43,21 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             ]
           }
+        },
+        notes: {
+          createMany: {
+            data: [
+              {
+                title: 'School',
+              },
+              {
+                title: 'Personal',
+              },
+              {
+                title: 'Work',
+              }
+            ]
+          }
         }
       },
     });

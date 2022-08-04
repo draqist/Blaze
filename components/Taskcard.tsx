@@ -32,6 +32,7 @@ import { MdOutlineEdit } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
 import { authEmail } from '../utils/atom';
 import { taskcard } from '../utils/types';
+import { createEditedTask, updatecategory } from '../utils/utils';
 
 const Taskcard = ({
   title,
@@ -59,25 +60,7 @@ const Taskcard = ({
     const value = e.target.value;
     setEditedTask({ ...editedTasks, [e.target.name]: value });
   }
-  async function createEditedTask() {
-    try {
-      const edittask = await fetch(`/api/tasks/${uid}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...editedTasks,
-          authorId: author_id,
-          uid
-        }),
-      });
-      onClose();
-      return edittask;
-    } catch (error) {
-      return error;
-    } finally {
-      pop();
-    }
-  }
+  
   let colorscheme;
   if (label === 'Critical') {
     colorscheme = 'red';
@@ -86,47 +69,24 @@ const Taskcard = ({
   } else {
     colorscheme = 'teal';
   }
-  async function updatecategory(id: number) {
-    try {
-      const updated = await fetch(`/api/tasks/`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: title,
-          description: team,
-          label: label,
-          authorId: author_id,
-          categoryId: id,
-          uid: uid,
-        }),
-      });
-      return updated;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      pop(e);
-    }
+  const wip = calc + 1;
+  const review = calc + 2;
+  const done = calc + 3;
+
+  let id =  wip || review || done
+
+  let catupdatereq = {
+    uid, author_id, team, title, label, pop, e, id
   }
-  async function deletetask(id: number) {
-    try {
-      await fetch('api/tasks', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: id,
-        }),
-      });
-      pop();
-    } catch (err) {
-      console.log(err);
-    }
+  let createeditreq = {
+    uid, editedTasks, author_id, onClose, pop, e
   }
+
   return (
-    <>
       <Box
         w="300px"
         h="175px"
-        boxShadow="lg"
+        boxShadow="md"
         border="1px solid #d8d8d8b3"
         borderRadius="10px"
         p="10px"
@@ -164,20 +124,24 @@ const Taskcard = ({
               </MenuItem>
               <MenuItem
                 icon={<IoMove fontSize="18px" />}
-                onClick={() => updatecategory(calc + 1)}
+                onClick={() => updatecategory({
+                  ...catupdatereq,
+                  id : wip
+                })}
               >
                 Move to W-I-P
               </MenuItem>
               <MenuItem
                 icon={<IoMove fontSize="18px" />}
-                onClick={() => updatecategory(calc + 2)}
+                onClick={() => updatecategory({...catupdatereq, id:review})}
               >
                 Move to Review{' '}
               </MenuItem>
-              <MenuItem onClick={() => updatecategory(calc + 3)}>
+              <MenuItem onClick={() => updatecategory({...catupdatereq, id:done})}>
                 Move to Completed
               </MenuItem>
-              <MenuItem color="red" onClick={() => deletetask(uid)}>
+              {/* onClick={() => deletetask(uid)} */}
+              <MenuItem color="red">
                 {' '}
                 Delete{' '}
               </MenuItem>
@@ -204,8 +168,8 @@ const Taskcard = ({
             <Tag colorScheme={colorscheme}> {label} </Tag>
           </Flex>
         </Box>
-      </Box>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered
+        size={['sm', 'sm', 'xl']}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontWeight="500">Add a new Task</ModalHeader>
@@ -260,13 +224,14 @@ const Taskcard = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={createEditedTask}>
+            <Button colorScheme="blue" mr={3} onClick={() => createEditedTask(createeditreq)}>
               Edit task
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+      </Box>
+
   );
 };
 

@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 export interface User {
   email: string;
   password: string;
@@ -15,7 +16,7 @@ export type taskcard = {
   date: string;
   label: string;
   uid: number;
-  pop: () => void;
+  pop: (arg: String) => void;
   k: any;
   author_id: number;
   calc:number
@@ -77,18 +78,28 @@ export interface Note {
   title: string;
   note: string;
   label: string;
-  authorId: Number;
-  noteId: Number;
-  createdAt: Date;
+  noteId: number;
+  createdAt: string,
+  id: number,
 }
 export const initialNote = {
   title: '',
   note: '',
   label: '',
-  authorId: 1,
   noteId: 1,
-  createdAt: new Date(),
+  createdAt: '',
+  id: 1,
 };
+
+export type PropsNote = {
+  title: string;
+  label: string;
+  id: number,
+  noteId: number
+  dOc: string,
+  note: string;
+  reload: (a:string) => void
+}
 
 export const initialTask = {
   title: '',
@@ -115,4 +126,38 @@ export type Notes = {
   id: Number;
   title: string;
   notes: Note[];
+}
+
+export type createnewtask = {
+  newTask: Task,
+  calcId: () => number,
+  initialTask: Task,
+  onClose: () => void,
+  setTasks: Dispatch<SetStateAction<Task>>,
+  rev: (arg: String) => void,
+  em: string
+}
+export type createeditedtask = {
+  editedTasks: {
+      title: string,
+      description: string,
+      progress: string,
+      date: string,
+      label: string,
+  },
+  uid: number,
+  author_id: number,
+  onClose: () => void,
+  pop: (arg: String) => void,
+  e: string
+}
+export type updatecategory = {
+  title: string,
+  team: string,
+  label: string,
+  author_id: string,
+  id: number,
+  uid: number,
+  pop: (arg: String) => void,
+  e: string
 }

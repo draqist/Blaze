@@ -23,6 +23,7 @@ const Dashboard: NextPage = () => {
         getTasks(userCred.email);
       }
     });
+    // eslint-disable-next-line
   }, []);
   async function getTasks(email: string) {
     try {

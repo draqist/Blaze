@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
   previewFeatures= ["referentialIntegrity"]
@@ -23,7 +22,7 @@ model User {
   category Category[]
   fullName String?
   createdAt   DateTime  @default(now())
-  notes Note[]
+  notes Notes[]
 }
 model Task {
   id Int @id @default(autoincrement())
@@ -49,6 +48,8 @@ model Notes {
   id Int @id @default(autoincrement())
   title String
   notes Note[] 
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
 }
 model Note {
   id Int @id @default(autoincrement())
@@ -56,8 +57,6 @@ model Note {
   note String
   label String
   createdAt DateTime  @default(now())
-  author User @relation(fields: [authorId], references: [id])
-  authorId Int
   notes Notes @relation(fields: [noteId], references:[id])
   noteId Int @default(1)
 

@@ -4,9 +4,9 @@ import {
   createUserWithEmailAndPassword,
   provider,
   signInWithEmailAndPassword,
-  signInWithPopup,
+  signInWithPopup
 } from '../firebase.config.js';
-import { Note, initialNote } from './types.js';
+import { createeditedtask, createnewtask, Note, } from './types.js';
 
 const SignUpwithGoogle = async () => {
   try {
@@ -92,4 +92,79 @@ async function createNewNote(
     getNotes();
   }
 }
-export { SignUpwithGoogle, SignUpwithEmail, SignInwithEmail };
+async function createNewTask({newTask, calcId, initialTask, onClose, setTasks, rev, em}:createnewtask) {
+  try {
+    const createtask = await fetch('/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...newTask,
+        categoryId: calcId()
+      }),
+    });
+    console.log(createtask);
+    onClose();
+    return createtask;
+  } catch (error) {
+    return error;
+  } finally {
+    setTasks(initialTask);
+    rev(em);
+  }
+}
+async function createEditedTask({uid, editedTasks, author_id, onClose, pop, e}:createeditedtask) {
+  try {
+    const edittask = await fetch(`/api/tasks/${uid}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...editedTasks,
+        authorId: author_id,
+        uid
+      }),
+    });
+    return edittask;
+  } catch (error) {
+    return error;
+  } finally {
+    pop(e);
+    onClose();
+  }
+}
+async function updatecategory(props : any) {
+  const { title, id, team, label, author_id, uid, pop, e } = props
+  try {
+    const updated = await fetch(`/api/tasks/`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title,
+        description: team,
+        label,
+        authorId: author_id,
+        categoryId: id,
+        uid
+      }),
+    });
+    return updated;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    pop(e);
+  }
+}
+// async function deletetask(id: number) {
+//   try {
+//     await fetch('api/tasks', {
+//       method: 'DELETE',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({
+//         id: id,
+//       }),
+//     });
+//     pop(e);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+export { createEditedTask,createNewTask, SignUpwithGoogle, SignUpwithEmail, SignInwithEmail,updatecategory };

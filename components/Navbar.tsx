@@ -38,15 +38,11 @@ const Navbar = () => {
         setEmail(userCred.email);
         // @ts-ignore
         setVer(userCred.email);
-
-        // @ts-ignore
-        console.log(displayName);
-        console.log(ver);
         // @ts-ignore
         getUser(userCred.email);
       }
     });
-  }, []);
+  }, [displayName, ver, setVer]);
 
   return (
     <Box

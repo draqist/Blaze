@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Center,
   Circle,
   Flex,
   FormControl,
@@ -25,6 +27,7 @@ import { FaPlus } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import { authEmail } from '../utils/atom';
 import { initialTask, Task } from '../utils/types';
+import { createNewTask } from '../utils/utils';
 import Taskcard from './Taskcard';
 
 const CardStack = (props: any) => {
@@ -32,7 +35,6 @@ const CardStack = (props: any) => {
   const textcolor = useColorModeValue('black', 'white');
   const [newTask, setTasks] = useState<Task>(initialTask);
   const [dis, setDis] = useState('');
-  const [is, setIs] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const em = useRecoilValue(authEmail)
 
@@ -42,7 +44,10 @@ const CardStack = (props: any) => {
     } else {
       setDis('none');
     }
-  }, [id]);
+    console.log(task)
+
+    // eslint-disable-next-line
+  }, []);
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
@@ -50,35 +55,17 @@ const CardStack = (props: any) => {
   }
 
   function calcId() {
-    let userid
+    let userid;
     return userid = (1 + ((uid-1) * 4))
   }
-
-  async function createNewTask() {
-    try {
-      const createtask = await fetch('/api/tasks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...newTask,
-          categoryId: uid
-        }),
-      });
-      console.log(createtask);
-      onClose();
-      return createtask;
-    } catch (error) {
-      return error;
-    } finally {
-      setTasks(initialTask);
-      rev(em);
-    }
+  
+  let req = {
+    newTask, calcId, initialTask, onClose, setTasks,rev, em
   }
   return (
     <>
       <Stack
-        flexBasis={'25%'}
-        minWidth="330px"
+        flexBasis={'29%'}
         direction="column"
         color={textcolor}
         border="2px solid"
@@ -88,7 +75,7 @@ const CardStack = (props: any) => {
         borderStyle="dashed"
         borderRadius="16px"
       >
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent="space-between" alignItems="center" mb={['8px','','10px','18px','20px']}>
           <Text mb="6px"> {title} </Text>
 
           <Button
@@ -107,7 +94,20 @@ const CardStack = (props: any) => {
             </Text>
           </Button>
         </Flex>
-        {task?.map((data: any, id: any) => (
+        {
+          task.length === 0 ?
+            <Box
+              w="300px"
+              h="175px"
+              boxShadow=""
+              border="1px solid #d8d8d8b3"
+              borderRadius="10px"
+            >
+              <Center w='100%' h='100%'>
+                There are no tasks here yet.😊
+              </Center>
+            </Box> :
+          task?.map((data: any, id: any) => (
           <Stack key={id} direction="column" gap={'5'} py="5px">
             <Taskcard
               title={data.title}
@@ -185,10 +185,10 @@ const CardStack = (props: any) => {
 
           <ModalFooter>
             <Button
-              isLoading={is}
               colorScheme="blue"
               mr={3}
-              onClick={createNewTask}
+              onClick={() => createNewTask(req)
+              }
             >
               Add task
             </Button>
