@@ -79,7 +79,6 @@ const CardStack = (props: any) => {
           <Text mb="6px"> {title} </Text>
 
           <Button
-            display={dis}
             variant="ghost"
             _active={{ outline: '0' }}
             size="sm"
