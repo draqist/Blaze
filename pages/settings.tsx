@@ -8,7 +8,7 @@ const Settings = () => {
     <Stack direction='row'>
     <Sidebar/>
       <Center h='100vh' w='100vw'>
-        Coming soon...
+        Coming soon......
         <BottomNav/>
       </Center>
     </Stack>
