@@ -32,18 +32,43 @@ const Notes = () => {
   const [newNote, setNewNote] = useState<Note>(initialNote);
   const [notescategory, setNotes] = useState<Notes[]>([]);
   const [userId, setUserId] = useState<Number>();
+   const [catid, setCatId] = useState<number>(0)
   useEffect(() => {
+  getcatId()
     onAuthStateChanged(auth, (userCred) => {
       if (userCred) {
         // @ts-ignore
         getNotes(userCred.email)
       }
     });
-  },[])
+  },[getcatId])
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
     setNewNote({ ...newNote, [e.target.name]: value });
+  }
+  async function getcatId() {
+
+    try {
+
+      const catId = await axios.post('/api/usercatid', {
+
+        email: em,
+
+      })
+
+      const kat = Number(catId.data.category[0].id)
+
+      setCatId(kat)
+
+    } catch (error) {
+
+      // @ts-ignore
+
+      console.log(error.error)
+
+    }
+
   }
   async function getNotes(email: string) {
     try {
@@ -76,7 +101,7 @@ const Notes = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...newNote,
-          noteId: calcId()
+          noteId: catid
         }),
       });
       console.log(createnote);
