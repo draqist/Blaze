@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         whileInView="visible"
         viewport={{ once: true }}
         pos="absolute"
-        bottom={['80px', '', '140px', '90px', '40px']}
+        bottom={['100px', '', '140px', '90px', '40px']}
         w={['calc(100% -40px', '', '']}
         px={['', '', '0']}
       >
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
               key={char + '-' + index}
               variants={letter}
               color="white"
-              fontSize={['', '', '36px']}
+              fontSize={['24px', '', '36px']}
             >
               {char}
             </Text>

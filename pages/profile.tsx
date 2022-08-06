@@ -1,10 +1,7 @@
 import {
   Box,
   Button,
-  Center,
-  Circle,
-  Flex,
-  FormControl,
+  Center, FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -12,25 +9,17 @@ import {
   Input,
   Stack,
   Textarea,
-  useToast,
+  useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { BiBarChartSquare } from 'react-icons/bi';
-import {
-  IoCalendarOutline,
-  IoPersonOutline,
-  IoSettingsOutline,
-} from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
+import BottomNav from '../components/BottomNav';
 import Sidebar from '../components/Sidebar';
 import { auth } from '../firebase.config';
 import { authEmail } from '../utils/atom';
 import { Settings, settingsUser } from '../utils/types';
-import NextLink from 'next/link';
-import { MdOutlineSpaceDashboard } from 'react-icons/md';
-import BottomNav from '../components/BottomNav';
 
 const Profile = () => {
   const [userdata, setUserdata] = useState<Settings>(settingsUser);
@@ -53,7 +42,6 @@ const Profile = () => {
         body: JSON.stringify(userdata),
       });
       getUser(userdata.email);
-      console.log(userBio);
       if (userBio.status === 200) {
         setSuccess(true);
       } else {

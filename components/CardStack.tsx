@@ -42,7 +42,6 @@ const CardStack = (props: any) => {
 
   useEffect(() => {
     getcatId()
-    console.log(catid)
     if (id === catid) {
       setDis('flex');
     } else {
@@ -60,10 +59,8 @@ const CardStack = (props: any) => {
       const catId = await axios.post('/api/usercatid', {
         email: em,
       })
-      console.log(catId.data.category[0].id)
       const kat = Number(catId.data.category[0].id)
       setCatId(kat)
-      console.log(catid)
     } catch (error) {
       // @ts-ignore
       console.log(error.error)

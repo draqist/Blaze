@@ -37,7 +37,6 @@ const Dashboard: NextPage = () => {
       const res = dew.data.category;
       const id = dew.data.id
       setUserId(id)
-      console.log(userId)
       return setCategory(res);
     } catch (error) {
       console.log(error);
