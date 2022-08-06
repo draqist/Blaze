@@ -154,7 +154,6 @@ const Signup = () => {
                 Sign Up{' '}
               </Button>
               <Button
-                isDisabled
                 mt="16px"
                 w="100%"
                 rightIcon={<FcGoogle fontSize="24px" />}
