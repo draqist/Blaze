@@ -22,6 +22,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
@@ -37,9 +38,11 @@ const CardStack = (props: any) => {
   const [dis, setDis] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const em = useRecoilValue(authEmail)
+  const [catid, setCatId] = useState(null)
 
   useEffect(() => {
-    if (id === calcId()) {
+    getcatId()
+    if (id === catid) {
       setDis('flex');
     } else {
       setDis('none');
@@ -53,7 +56,17 @@ const CardStack = (props: any) => {
     let value = e.target.value;
     setTasks({ ...newTask, [e.target.name]: value });
   }
-
+  async function getcatId() {
+    try {
+      const catId = await axios.post('/api/usercatid', {
+        email: em,
+      })
+      setCatId(catId.data)
+    } catch (error) {
+      // @ts-ignore
+      console.log(error.error)
+    }
+  }
   function calcId() {
     let userid;
     return userid = (1 + ((uid-1) * 4))
