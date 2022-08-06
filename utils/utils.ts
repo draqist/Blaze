@@ -92,14 +92,14 @@ async function createNewNote(
     getNotes();
   }
 }
-async function createNewTask({newTask, calcId, initialTask, onClose, setTasks, rev, em}:createnewtask) {
+async function createNewTask({newTask, catid, initialTask, onClose, setTasks, rev, em}:createnewtask) {
   try {
     const createtask = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...newTask,
-        categoryId: calcId()
+        categoryId: catid
       }),
     });
     console.log(createtask);

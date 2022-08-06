@@ -38,7 +38,7 @@ const CardStack = (props: any) => {
   const [dis, setDis] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const em = useRecoilValue(authEmail)
-  const [catid, setCatId] = useState(null)
+  const [catid, setCatId] = useState<number>(0)
 
   useEffect(() => {
     getcatId()
@@ -61,7 +61,7 @@ const CardStack = (props: any) => {
       const catId = await axios.post('/api/usercatid', {
         email: em,
       })
-      setCatId(catId.data)
+      setCatId(Number(catId.data))
     } catch (error) {
       // @ts-ignore
       console.log(error.error)
@@ -73,7 +73,7 @@ const CardStack = (props: any) => {
   }
   
   let req = {
-    newTask, calcId, initialTask, onClose, setTasks,rev, em
+    newTask, catid, initialTask, onClose, setTasks,rev, em
   }
   return (
     <>
@@ -92,7 +92,7 @@ const CardStack = (props: any) => {
           <Text mb="6px"> {title} </Text>
 
           <Button
-          
+            display={dis}
             variant="ghost"
             _active={{ outline: '0' }}
             size="sm"
@@ -132,7 +132,7 @@ const CardStack = (props: any) => {
               pop={rev}
               k={id}
               author_id={data.authorId}
-              calc= {calcId()}
+              calc= {catid}
             />
           </Stack>
         ))}

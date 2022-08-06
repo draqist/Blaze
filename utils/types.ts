@@ -130,7 +130,7 @@ export type Notes = {
 
 export type createnewtask = {
   newTask: Task,
-  calcId: () => number,
+  catid: number,
   initialTask: Task,
   onClose: () => void,
   setTasks: Dispatch<SetStateAction<Task>>,
