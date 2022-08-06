@@ -8,7 +8,7 @@ import {
   FormLabel,
   Heading,
   Input,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { motion } from 'framer-motion';
@@ -44,15 +44,27 @@ const Signup = () => {
       isClosable: true,
       position: 'top',
     });
-  async function handleSignUp(registervalues:Usar) {
+  async function handleSignUp(registervalues: Usar) {
     try {
       const RegUser = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(registervalues),
       });
-      await SignUpwithEmail(registervalues.email, registervalues.password, setError, Redirect);
-      toast({ title: 'Registration Successful', status: 'success', description: "You have been registered successfully", position: 'top',duration: 3000, isClosable: true });
+      await SignUpwithEmail(
+        registervalues.email,
+        registervalues.password,
+        setError,
+        Redirect,
+      );
+      toast({
+        title: 'Registration Successful',
+        status: 'success',
+        description: 'You have been registered successfully',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      });
       return RegUser;
     } catch (error) {
       // @ts-ignore
@@ -60,20 +72,34 @@ const Signup = () => {
       // @ts-ignore
       setError({ state: true, message: error.message });
       // @ts-ignore
-      toast({ title: 'Registration Failed', status: 'error', description: `${error?.message}`, position: 'top',duration: 3000, isClosable: true });;
+      toast({
+        title: 'Registration Failed',
+        status: 'error',
+        description: `${error?.message}`,
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   }
   return (
     <Formik
       initialValues={initialUser}
       onSubmit={(registervalues) => {
-        handleSignUp(registervalues)
+        handleSignUp(registervalues);
       }}
       validationSchema={SignUpValidations}
     >
-      {({ values, handleSubmit, handleChange, handleBlur, setFieldValue, errors, touched }) => {
+      {({
+        values,
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        setFieldValue,
+        errors,
+        touched,
+      }) => {
         return (
-
           <Center
             as={motion.div}
             initial={{ opacity: 1 }}
@@ -90,13 +116,26 @@ const Signup = () => {
               p={['20px', '', '40px']}
               boxShadow="md"
             >
-              <Heading mb="10px" fontSize="24px" fontWeight="600" color="gray.700">
+              <Heading
+                mb="10px"
+                fontSize="24px"
+                fontWeight="600"
+                color="gray.700"
+              >
                 {' '}
                 Blaze up !!!{' '}
               </Heading>
               <Box fontWeight="300" textAlign="left">
-                <FormControl isInvalid={errors.userName ? true : false} isRequired>
-                  <FormLabel htmlFor="userName" fontWeight="400" mt="8px" fontFamily="Oswald">
+                <FormControl
+                  isInvalid={errors.userName ? true : false}
+                  isRequired
+                >
+                  <FormLabel
+                    htmlFor="userName"
+                    fontWeight="400"
+                    mt="8px"
+                    fontFamily="Oswald"
+                  >
                     Username{' '}
                   </FormLabel>
                   <Input
@@ -108,15 +147,24 @@ const Signup = () => {
                     placeholder="Enter your username"
                   />
                   {errors.userName && touched.userName ? (
-                    <FormErrorMessage> Kindly enter a username </FormErrorMessage>) : null}
+                    <FormErrorMessage>
+                      {' '}
+                      Kindly enter a username{' '}
+                    </FormErrorMessage>
+                  ) : null}
                 </FormControl>
                 <FormControl isInvalid={errors.email ? true : false} isRequired>
-                  <FormLabel htmlFor="email" fontWeight="400" mt="8px" fontFamily="Oswald">
+                  <FormLabel
+                    htmlFor="email"
+                    fontWeight="400"
+                    mt="8px"
+                    fontFamily="Oswald"
+                  >
                     Email address
                   </FormLabel>
                   <Input
                     type="email"
-                  autoComplete="email"
+                    autoComplete="email"
                     name="email"
                     value={values.email}
                     onChange={handleChange}
@@ -128,28 +176,49 @@ const Signup = () => {
                     <FormErrorMessage>
                       {' '}
                       Kindly enter a valid email address
-                    </FormErrorMessage>) : null}
+                    </FormErrorMessage>
+                  ) : null}
                 </FormControl>
-                <FormControl isInvalid={errors.password ? true : false} isRequired>
-                  <FormLabel htmlFor="password" fontWeight="400" mt="8px" fontFamily="Oswald">
+                <FormControl
+                  isInvalid={errors.password ? true : false}
+                  isRequired
+                >
+                  <FormLabel
+                    htmlFor="password"
+                    fontWeight="400"
+                    mt="8px"
+                    fontFamily="Oswald"
+                  >
                     Password{' '}
                   </FormLabel>
                   <Input
                     type="password"
-                    name="password" 
+                    name="password"
                     autoComplete="password"
-                    placeholder='Enter your password'
+                    placeholder="Enter your password"
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  {errors.password && touched.password ? (<FormErrorMessage> Kindly enter a password </FormErrorMessage>) : null}
+                  {errors.password && touched.password ? (
+                    <FormErrorMessage>
+                      {' '}
+                      Kindly enter a password{' '}
+                    </FormErrorMessage>
+                  ) : null}
                 </FormControl>
               </Box>
-              <Button mt="16px" w="100%"
-                isDisabled={ (errors.userName || errors.email || errors.password) ? true : false}
+              <Button
+                mt="16px"
+                w="100%"
+                isDisabled={
+                  errors.userName || errors.email || errors.password
+                    ? true
+                    : false
+                }
                 /* @ts-ignore */
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+              >
                 {' '}
                 Sign Up{' '}
               </Button>
@@ -166,10 +235,10 @@ const Signup = () => {
               </Button>
             </Box>
           </Center>
-        )
+        );
       }}
-      </Formik>
-      );
+    </Formik>
+  );
 };
 
 export default Signup;

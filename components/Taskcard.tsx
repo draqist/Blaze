@@ -43,11 +43,11 @@ const Taskcard = ({
   uid,
   pop,
   author_id,
-  calc
+  calc,
 }: taskcard) => {
   const d = new Date(date).toDateString();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const e = useRecoilValue(authEmail)
+  const e = useRecoilValue(authEmail);
   const [editedTasks, setEditedTask] = useState({
     title: title,
     description: team,
@@ -60,7 +60,7 @@ const Taskcard = ({
     const value = e.target.value;
     setEditedTask({ ...editedTasks, [e.target.name]: value });
   }
-  
+
   let colorscheme;
   if (label === 'Critical') {
     colorscheme = 'red';
@@ -73,103 +73,117 @@ const Taskcard = ({
   const review = calc + 2;
   const done = calc + 3;
 
-  let id =  wip || review || done
+  let id = wip || review || done;
 
   let catupdatereq = {
-    uid, author_id, team, title, label, pop, e, id
-  }
+    uid,
+    author_id,
+    team,
+    title,
+    label,
+    pop,
+    e,
+    id,
+  };
   let createeditreq = {
-    uid, editedTasks, author_id, onClose, pop, e
-  }
+    uid,
+    editedTasks,
+    author_id,
+    onClose,
+    pop,
+    e,
+  };
 
   return (
-      <Box
-        w="300px"
-        h="175px"
-        boxShadow="md"
-        border="1px solid #d8d8d8b3"
-        borderRadius="10px"
-        p="10px"
-      >
-        <Flex justifyContent="space-between" alignItems="flex-start">
-          <Box>
-            <Text fontSize="20px"> {title} </Text>
-            <Text fontSize="12px"> {team}</Text>
-          </Box>
-          <Menu>
-            <MenuButton
-              borderRadius="50%"
-              textAlign="center"
-              size="sm"
-              w="30px"
-              h="30px"
-              as={Button}
-              outline="none"
-              variant="unstyled"
+    <Box
+      w="300px"
+      h="175px"
+      boxShadow="md"
+      border="1px solid #d8d8d8b3"
+      borderRadius="10px"
+      p="10px"
+    >
+      <Flex justifyContent="space-between" alignItems="flex-start">
+        <Box>
+          <Text fontSize="20px"> {title} </Text>
+          <Text fontSize="12px"> {team}</Text>
+        </Box>
+        <Menu>
+          <MenuButton
+            borderRadius="50%"
+            textAlign="center"
+            size="sm"
+            w="30px"
+            h="30px"
+            as={Button}
+            outline="none"
+            variant="unstyled"
+          >
+            <Circle
+              border="1px solid #d3d3d4"
+              size="26px"
+              _hover={{ bgColor: '#E2E8F0' }}
             >
-              <Circle
-                border="1px solid #d3d3d4"
-                size="26px"
-                _hover={{ bgColor: '#E2E8F0' }}
-              >
-                <FaEllipsisH fontSize="16px" />
-              </Circle>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                icon={<MdOutlineEdit fontSize="18px" />}
-                onClick={onOpen}
-              >
-                Edit
-              </MenuItem>
-              <MenuItem
-                icon={<IoMove fontSize="18px" />}
-                onClick={() => updatecategory({
+              <FaEllipsisH fontSize="16px" />
+            </Circle>
+          </MenuButton>
+          <MenuList>
+            <MenuItem icon={<MdOutlineEdit fontSize="18px" />} onClick={onOpen}>
+              Edit
+            </MenuItem>
+            <MenuItem
+              icon={<IoMove fontSize="18px" />}
+              onClick={() =>
+                updatecategory({
                   ...catupdatereq,
-                  id : wip
-                })}
-              >
-                Move to W-I-P
-              </MenuItem>
-              <MenuItem
-                icon={<IoMove fontSize="18px" />}
-                onClick={() => updatecategory({...catupdatereq, id:review})}
-              >
-                Move to Review{' '}
-              </MenuItem>
-              <MenuItem onClick={() => updatecategory({...catupdatereq, id:done})}>
-                Move to Completed
-              </MenuItem>
-              {/* onClick={() => deletetask(uid)} */}
-              <MenuItem color="red">
-                {' '}
-                Delete{' '}
-              </MenuItem>
-            </MenuList>
-          </Menu>
+                  id: wip,
+                })
+              }
+            >
+              Move to W-I-P
+            </MenuItem>
+            <MenuItem
+              icon={<IoMove fontSize="18px" />}
+              onClick={() => updatecategory({ ...catupdatereq, id: review })}
+            >
+              Move to Review{' '}
+            </MenuItem>
+            <MenuItem
+              onClick={() => updatecategory({ ...catupdatereq, id: done })}
+            >
+              Move to Completed
+            </MenuItem>
+            {/* onClick={() => deletetask(uid)} */}
+            <MenuItem color="red"> Delete </MenuItem>
+          </MenuList>
+        </Menu>
+      </Flex>
+      <Box mt="18px">
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text fontSize="14px"> Progress </Text>
+          <Text fontSize="12px"> {progress}</Text>
         </Flex>
-        <Box mt="18px">
-          <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="14px"> Progress </Text>
-            <Text fontSize="12px"> {progress}</Text>
-          </Flex>
-          <Progress
-            isAnimated
-            h="6px"
-            borderRadius="10px "
-            mt="6px"
-            color="green"
-            value={10}
-          />
-        </Box>
-        <Box mt="18px">
-          <Flex justifyContent="space-between" alignItems="center">
-            <Tag> {d} </Tag>
-            <Tag colorScheme={colorscheme}> {label} </Tag>
-          </Flex>
-        </Box>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered
-        size={['sm', 'sm', 'xl']}>
+        <Progress
+          isAnimated
+          h="6px"
+          borderRadius="10px "
+          mt="6px"
+          color="green"
+          value={10}
+        />
+      </Box>
+      <Box mt="18px">
+        <Flex justifyContent="space-between" alignItems="center">
+          <Tag> {d} </Tag>
+          <Tag colorScheme={colorscheme}> {label} </Tag>
+        </Flex>
+      </Box>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        size={['sm', 'sm', 'xl']}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontWeight="500">Add a new Task</ModalHeader>
@@ -224,14 +238,17 @@ const Taskcard = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={() => createEditedTask(createeditreq)}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() => createEditedTask(createeditreq)}
+            >
               Edit task
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      </Box>
-
+    </Box>
   );
 };
 

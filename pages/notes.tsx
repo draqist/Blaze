@@ -3,14 +3,26 @@ import {
   Button,
   Center,
   Circle,
-  Flex, FormControl, FormErrorMessage, FormLabel, Grid, Heading, Input, Modal,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Grid,
+  Heading,
+  Input,
+  Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay, Select, Stack,
-  Text, Textarea, useColorModeValue, useDisclosure
+  ModalOverlay,
+  Select,
+  Stack,
+  Text,
+  Textarea,
+  useColorModeValue,
+  useDisclosure
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -28,47 +40,35 @@ import { initialNote, Note, Notes } from '../utils/types';
 const Notes = () => {
   const bgcolor = useColorModeValue('white', '#1A202C');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const e = useRecoilValue(authEmail)
+  const e = useRecoilValue(authEmail);
   const [newNote, setNewNote] = useState<Note>(initialNote);
   const [notescategory, setNotes] = useState<Notes[]>([]);
-  const [userId, setUserId] = useState<Number>();
-   const [catid, setCatId] = useState<number>(0)
+  const [catid, setCatId] = useState<number>(0);
   useEffect(() => {
-  getcatId()
+    getnoteId();
     onAuthStateChanged(auth, (userCred) => {
       if (userCred) {
         // @ts-ignore
-        getNotes(userCred.email)
+        getNotes(userCred.email);
       }
     });
-  },[getcatId])
+  }, []);
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
     setNewNote({ ...newNote, [e.target.name]: value });
   }
-  async function getcatId() {
-
+  async function getnoteId() {
     try {
-
-      const catId = await axios.post('/api/usercatid', {
-
-        email: e
-
-      })
-
-      const kat = Number(catId.data.category[0].id)
-
-      setCatId(kat)
-
+      const catId = await axios.post('/api/usernoteid', {
+        email: e,
+      });
+      const kat = Number(catId.data.notes[0].id);
+      setCatId(kat);
     } catch (error) {
-
       // @ts-ignore
-
-      console.log(error.error)
-
+      console.log(error.error);
     }
-
   }
   async function getNotes(email: string) {
     try {
@@ -76,24 +76,17 @@ const Notes = () => {
         method: 'post',
         url: '/api/usernotes',
         data: {
-          email: email
-        }
+          email: email,
+        },
       });
       const res = dew.data.notes;
-      const id = dew.data.id
-      setUserId(id)
       return setNotes(res);
     } catch (error) {
       // @ts-ignore
       console.log(error.message);
     }
   }
-  function calcId() {
-    let userid
-    console.log(userId)
-    // @ts-ignore
-    return userid = (1 + ((userId-1) * 3))
-  }
+  
   async function createNewNote() {
     try {
       const createnote = await fetch('/api/notes', {
@@ -101,7 +94,7 @@ const Notes = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...newNote,
-          noteId: catid
+          noteId: catid,
         }),
       });
       console.log(createnote);
@@ -127,12 +120,13 @@ const Notes = () => {
         <Box pos="fixed" display={['none', 'none', 'block']} w={['0', '', '']}>
           <Sidebar />
         </Box>
-        <BottomNav/>
+        <BottomNav />
         <Box
           pos="relative"
           left={['0', '', '50px']}
+          bottom={['60px', '0', '0']}
           minWidth={['100%', '', 'calc(100vw - 60px)']}
-          p={['', '','10px','20px', '20px']}
+          p={['', '', '10px', '20px', '20px']}
           h="100%"
         >
           <Box px={['10px']}>
@@ -151,13 +145,17 @@ const Notes = () => {
               // display={dis}
               variant="solid"
               _active={{ outline: '0' }}
-              size={['sm','sm',"md"]}
+              size={['sm', 'sm', 'md']}
               onClick={onOpen}
             >
               <Circle border="1px solid #d8d8d8" size="24px">
                 <FaPlus fontSize="10px" />
               </Circle>
-              <Text ml={['6px','',"14px"]} fontWeight="400" fontSize={['16px','14px',"20px"]}>
+              <Text
+                ml={['6px', '', '14px']}
+                fontWeight="400"
+                fontSize={['16px', '14px', '20px']}
+              >
                 {' '}
                 Add a note{' '}
               </Text>
@@ -171,36 +169,57 @@ const Notes = () => {
             gap={['2', '', '5']}
             px={['10px', '', '']}
             py={['30px', '', '20px']}
-            pb={['60px', '', '20px']}
+            pb={['30px', '', '20px']}
             w={['100vw', '', 'calc(100vw - 100px)']}
           >
-            {
-              notescategory?.map((notesection, id) => (
-                <Box key={id} w='100%'>
-                  <Heading mt='8px'> {notesection.title}</Heading>
-                  <Box w='100%'  mt = '10px' px={['8px','','','','24px']} py={['4px','','','','20px']} border='1px solid #d8d8d8' borderRadius='20px' minHeight='200px'>
-                    <Grid
-                      templateColumns={['repeat(1, 1fr)','','repeat(2, 1fr)','repeat(2, 1fr)','repeat(2, 1fr)']}
-                      // wrap="wrap"
-                      gap={['1','',"4","4","4"]}
-                      alignItems="flex-start"
-                      w='100%'
-                    >
-                      {
-                        notesection.notes.length === 0 ?
-                          <Center w='100%' minH='200px'>
-                            <Text fontSize='20px'>There are no notes here yet.😊</Text>
-                          </Center> :
-                        notesection.notes.map((notedata, id) => (
-                        <NoteStack reload={getNotes} key = {id} title={notedata.title} label={notedata.label} id={notedata.id} noteId={notedata.noteId} note={notedata.note} dOc={notedata.createdAt} />
+            {notescategory?.map((notesection, id) => (
+              <Box key={id} w="100%">
+                <Heading mt="8px"> {notesection.title}</Heading>
+                <Box
+                  w="100%"
+                  mt="10px"
+                  px={['8px', '', '', '', '24px']}
+                  py={['4px', '', '', '', '20px']}
+                  border="1px solid #d8d8d8"
+                  borderRadius="20px"
+                  minHeight="200px"
+                >
+                  <Grid
+                    templateColumns={[
+                      'repeat(1, 1fr)',
+                      '',
+                      'repeat(2, 1fr)',
+                      'repeat(2, 1fr)',
+                      'repeat(2, 1fr)',
+                    ]}
+                    gap={['1', '', '4', '4', '4']}
+                    alignItems="flex-start"
+                    w="100%"
+                  >
+                    {notesection.notes.length === 0 ? (
+                      <Center w="100%" minH="200px">
+                        <Text fontSize="20px">
+                          There are no notes here yet.😊
+                        </Text>
+                      </Center>
+                    ) : (
+                      notesection.notes.map((notedata, id) => (
+                        <NoteStack
+                          reload={getNotes}
+                          key={id}
+                          title={notedata.title}
+                          label={notedata.label}
+                          id={notedata.id}
+                          noteId={notedata.noteId}
+                          note={notedata.note}
+                          dOc={notedata.createdAt}
+                        />
                       ))
-                    }
-                    </Grid>
-
-                  </Box>
+                    )}
+                  </Grid>
                 </Box>
-              ))
-            }
+              </Box>
+            ))}
           </Flex>
         </Box>
       </Stack>

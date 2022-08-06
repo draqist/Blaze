@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     return await createNote(req, res);
-  }  else if (req.method === 'PUT') {
+  } else if (req.method === 'PUT') {
     return await updateNotes(req, res);
   } else if (req.method === 'DELETE') {
     return await deleteNotes(req, res);

@@ -4,9 +4,9 @@ import {
   createUserWithEmailAndPassword,
   provider,
   signInWithEmailAndPassword,
-  signInWithPopup
+  signInWithPopup,
 } from '../firebase.config.js';
-import { createeditedtask, createnewtask, Note, } from './types.js';
+import { createeditedtask, createnewtask, Note } from './types.js';
 
 const SignUpwithGoogle = async () => {
   try {
@@ -22,12 +22,10 @@ const SignUpwithEmail = async (
   setError: any,
   Redirect: () => void,
 ) => {
-
   try {
     await createUserWithEmailAndPassword(auth, email, password).then(
       (userMeta) => {
         if (userMeta) {
-        
         } else {
           setError({ state: true, message: 'Error logging in' });
         }
@@ -92,14 +90,22 @@ async function createNewNote(
     getNotes();
   }
 }
-async function createNewTask({newTask, catid, initialTask, onClose, setTasks, rev, em}:createnewtask) {
+async function createNewTask({
+  newTask,
+  catid,
+  initialTask,
+  onClose,
+  setTasks,
+  rev,
+  em,
+}: createnewtask) {
   try {
     const createtask = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...newTask,
-        categoryId: catid
+        categoryId: catid,
       }),
     });
     console.log(createtask);
@@ -112,7 +118,14 @@ async function createNewTask({newTask, catid, initialTask, onClose, setTasks, re
     rev(em);
   }
 }
-async function createEditedTask({uid, editedTasks, author_id, onClose, pop, e}:createeditedtask) {
+async function createEditedTask({
+  uid,
+  editedTasks,
+  author_id,
+  onClose,
+  pop,
+  e,
+}: createeditedtask) {
   try {
     const edittask = await fetch(`/api/tasks/${uid}`, {
       method: 'PUT',
@@ -120,7 +133,7 @@ async function createEditedTask({uid, editedTasks, author_id, onClose, pop, e}:c
       body: JSON.stringify({
         ...editedTasks,
         authorId: author_id,
-        uid
+        uid,
       }),
     });
     return edittask;
@@ -131,8 +144,8 @@ async function createEditedTask({uid, editedTasks, author_id, onClose, pop, e}:c
     onClose();
   }
 }
-async function updatecategory(props : any) {
-  const { title, id, team, label, author_id, uid, pop, e } = props
+async function updatecategory(props: any) {
+  const { title, id, team, label, author_id, uid, pop, e } = props;
   try {
     const updated = await fetch(`/api/tasks/`, {
       method: 'PUT',
@@ -143,7 +156,7 @@ async function updatecategory(props : any) {
         label,
         authorId: author_id,
         categoryId: id,
-        uid
+        uid,
       }),
     });
     return updated;
@@ -167,4 +180,11 @@ async function updatecategory(props : any) {
 //     console.log(err);
 //   }
 // }
-export { createEditedTask,createNewTask, SignUpwithGoogle, SignUpwithEmail, SignInwithEmail,updatecategory };
+export {
+  createEditedTask,
+  createNewTask,
+  SignUpwithGoogle,
+  SignUpwithEmail,
+  SignInwithEmail,
+  updatecategory,
+};

@@ -37,11 +37,11 @@ const CardStack = (props: any) => {
   const [newTask, setTasks] = useState<Task>(initialTask);
   const [dis, setDis] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const em = useRecoilValue(authEmail)
-  const [catid, setCatId] = useState<number>(0)
+  const em = useRecoilValue(authEmail);
+  const [catid, setCatId] = useState<number>(0);
 
   useEffect(() => {
-    getcatId()
+    getcatId();
     if (id === catid) {
       setDis('flex');
     } else {
@@ -58,22 +58,28 @@ const CardStack = (props: any) => {
     try {
       const catId = await axios.post('/api/usercatid', {
         email: em,
-      })
-      const kat = Number(catId.data.category[0].id)
-      setCatId(kat)
+      });
+      const kat = Number(catId.data.category[0].id);
+      setCatId(kat);
     } catch (error) {
       // @ts-ignore
-      console.log(error.error)
+      console.log(error.error);
     }
   }
   function calcId() {
     let userid;
-    return userid = (1 + ((uid-1) * 4))
+    return (userid = 1 + (uid - 1) * 4);
   }
-  
+
   let req = {
-    newTask, catid, initialTask, onClose, setTasks,rev, em
-  }
+    newTask,
+    catid,
+    initialTask,
+    onClose,
+    setTasks,
+    rev,
+    em,
+  };
   return (
     <>
       <Stack
@@ -87,7 +93,11 @@ const CardStack = (props: any) => {
         borderStyle="dashed"
         borderRadius="16px"
       >
-        <Flex justifyContent="space-between" alignItems="center" mb={['8px','','10px','18px','20px']}>
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          mb={['8px', '', '10px', '18px', '20px']}
+        >
           <Text mb="6px"> {title} </Text>
 
           <Button
@@ -106,35 +116,36 @@ const CardStack = (props: any) => {
             </Text>
           </Button>
         </Flex>
-        {
-          task.length === 0 ?
-            <Box
-              w="300px"
-              h="175px"
-              boxShadow=""
-              border="1px solid #d8d8d8b3"
-              borderRadius="10px"
-            >
-              <Center w='100%' h='100%'>
-                There are no tasks here yet.😊
-              </Center>
-            </Box> :
+        {task.length === 0 ? (
+          <Box
+            w="300px"
+            h="175px"
+            boxShadow=""
+            border="1px solid #d8d8d8b3"
+            borderRadius="10px"
+          >
+            <Center w="100%" h="100%">
+              There are no tasks here yet.😊
+            </Center>
+          </Box>
+        ) : (
           task?.map((data: any, id: any) => (
-          <Stack key={id} direction="column" gap={'5'} py="5px">
-            <Taskcard
-              title={data.title}
-              team={data.description}
-              label={data.label}
-              date={data.createdAt}
-              progress={'0'}
-              uid={data.id}
-              pop={rev}
-              k={id}
-              author_id={data.authorId}
-              calc= {catid}
-            />
-          </Stack>
-        ))}
+            <Stack key={id} direction="column" gap={'5'} py="5px">
+              <Taskcard
+                title={data.title}
+                team={data.description}
+                label={data.label}
+                date={data.createdAt}
+                progress={'0'}
+                uid={data.id}
+                pop={rev}
+                k={id}
+                author_id={data.authorId}
+                calc={catid}
+              />
+            </Stack>
+          ))
+        )}
       </Stack>
       <Modal
         isOpen={isOpen}
@@ -199,8 +210,7 @@ const CardStack = (props: any) => {
             <Button
               colorScheme="blue"
               mr={3}
-              onClick={() => createNewTask(req)
-              }
+              onClick={() => createNewTask(req)}
             >
               Add task
             </Button>

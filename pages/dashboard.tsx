@@ -14,7 +14,6 @@ const Dashboard: NextPage = () => {
   const bgcolor = useColorModeValue('white', '#1A202C');
   const [category, setCategory] = useState<Category[]>([]);
   const [userId, setUserId] = useState<Number>();
-  
 
   useEffect(() => {
     onAuthStateChanged(auth, (userCred) => {
@@ -31,12 +30,12 @@ const Dashboard: NextPage = () => {
         method: 'post',
         url: '/api/usertasks',
         data: {
-          email
-        }
+          email,
+        },
       });
       const res = dew.data.category;
-      const id = dew.data.id
-      setUserId(id)
+      const id = dew.data.id;
+      setUserId(id);
       return setCategory(res);
     } catch (error) {
       console.log(error);
@@ -53,7 +52,7 @@ const Dashboard: NextPage = () => {
       <Box pos="fixed" display={['none', 'none', 'block']} w={['0', '', '']}>
         <Sidebar />
       </Box>
-      <BottomNav/>
+      <BottomNav />
       <Box
         pos="relative"
         left={['0', '', '50px']}

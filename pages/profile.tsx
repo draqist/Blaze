@@ -1,7 +1,8 @@
 import {
   Box,
   Button,
-  Center, FormControl,
+  Center,
+  FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -9,7 +10,7 @@ import {
   Input,
   Stack,
   Textarea,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -93,7 +94,7 @@ const Profile = () => {
       <Box pos="fixed" display={['none', 'none', 'block']} w={['0', '', '']}>
         <Sidebar />
       </Box>
-      <BottomNav/>
+      <BottomNav />
       <Box
         pos="relative"
         left={['0', '', '52px', '0px', '60px']}
@@ -107,7 +108,7 @@ const Profile = () => {
         px={['20px', '', '20px', '130px', '200px']}
         py={['40px', '', '20px', '130px', '60px']}
         m="0"
-        h='100%'
+        h="100%"
       >
         <Center
           w={[

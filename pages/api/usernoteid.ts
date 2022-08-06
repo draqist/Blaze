@@ -7,39 +7,31 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    return await getTasks(req, res);
+    return await getNoteId(req, res);
   } else {
     res.status(405).json({ message: 'Method is not allowed.' });
   }
 }
 
-export const getTasks = async (req: NextApiRequest, res: NextApiResponse) => {
+export const getNoteId = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email } = req.body;
   try {
-    const tasks = await prisma.user.findUnique({
+    const category = await prisma.user.findUnique({
       where: {
         email,
       },
       select: {
-        id: true,
-        category: {
+        notes: {
           orderBy: {
             id: 'asc',
           },
           select: {
             id: true,
-            title: true,
-            tasks: {
-              orderBy: {
-                id: 'desc',
-              },
-            },
-            authorId: true,
           },
         },
       },
     });
-    return res.status(200).json(tasks);
+    return res.status(200).json(category);
   } catch (err) {
     console.log(err);
     return res

@@ -28,8 +28,8 @@ const notes = [
   },
   {
     title: 'Work',
-  }
-]
+  },
+];
 
 const seedCategory = async () => {
   try {
@@ -38,11 +38,11 @@ const seedCategory = async () => {
       data: categories,
     });
     console.log('Added category data');
-    await prisma.notes.deleteMany()
+    await prisma.notes.deleteMany();
     await prisma.notes.createMany({
-      data: notes
-    })
-    console.log('Added notes data')
+      data: notes,
+    });
+    console.log('Added notes data');
   } catch (e) {
     console.error(e);
     process.exit(1);

@@ -22,17 +22,17 @@ const sentence = {
 
 export { projectdescription, sentence, letter };
 // const Tasks = await prisma.category.findMany({
-    //   select: {
-    //     id: true,
-    //     title: true,
-    //     tasks: {
-    //       orderBy: {
-    //         id: 'desc',
-    //       },
-    //     },
-    //   },
-    //   orderBy: {
-    //     id: 'asc',
-    //   },
-    // });
-    // return res.status(200).json(Tasks);
+//   select: {
+//     id: true,
+//     title: true,
+//     tasks: {
+//       orderBy: {
+//         id: 'desc',
+//       },
+//     },
+//   },
+//   orderBy: {
+//     id: 'asc',
+//   },
+// });
+// return res.status(200).json(Tasks);

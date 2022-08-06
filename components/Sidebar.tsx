@@ -8,7 +8,7 @@ import {
 } from 'react-icons/io5';
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
 import NextLink from 'next/link';
-import {signOut} from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.config';
 
 const Sidebar = () => {
@@ -26,7 +26,7 @@ const Sidebar = () => {
       spacing="40px"
       alignItems="center"
       py="20px"
-      display={['none','','flex']}
+      display={['none', '', 'flex']}
     >
       <Circle p="6px" _hover={{ bgColor: '#9696969d', color: 'white' }}>
         <NextLink href="/dashboard">
@@ -53,9 +53,18 @@ const Sidebar = () => {
           <IoSettingsOutline />
         </NextLink>
       </Circle>
-      <Button pos='fixed' bottom ={['','','80px','120px','40px']} variant='ghost' colorScheme='transparent' fontSize='28px' mt='200px' alignItems="center" onClick={() => signOut(auth)}>
-        <NextLink href='/'>
-          <IoLogOutOutline color='red'/>
+      <Button
+        pos="fixed"
+        bottom={['', '', '80px', '120px', '40px']}
+        variant="ghost"
+        colorScheme="transparent"
+        fontSize="28px"
+        mt="200px"
+        alignItems="center"
+        onClick={() => signOut(auth)}
+      >
+        <NextLink href="/">
+          <IoLogOutOutline color="red" />
         </NextLink>
       </Button>
     </Stack>

@@ -14,7 +14,7 @@ export default async function handler(
 }
 
 export const getNotes = async (req: NextApiRequest, res: NextApiResponse) => {
-  const  {email} = req.body;
+  const { email } = req.body;
   try {
     const Tasks = await prisma.user.findUnique({
       where: {
@@ -24,14 +24,14 @@ export const getNotes = async (req: NextApiRequest, res: NextApiResponse) => {
         id: true,
         notes: {
           orderBy: {
-            id: "asc",
+            id: 'asc',
           },
           select: {
             id: true,
             title: true,
             notes: {
               orderBy: {
-                id: "desc",
+                id: 'desc',
               },
               select: {
                 id: true,
@@ -40,12 +40,12 @@ export const getNotes = async (req: NextApiRequest, res: NextApiResponse) => {
                 createdAt: true,
                 label: true,
                 noteId: true,
-              }
+              },
             },
-            authorId: true
-          }
-        }
-      }
+            authorId: true,
+          },
+        },
+      },
     });
     return res.status(200).json(Tasks);
   } catch (err) {

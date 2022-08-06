@@ -51,7 +51,7 @@ const Navbar = () => {
       p={['10px', '', '30px']}
       mb="10px"
       border={border}
-      w='100%'
+      w="100%"
     >
       <Flex justifyContent="space-between" alignItems="center">
         <Text fontSize={['16px', '', '20px']} color="current">

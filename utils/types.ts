@@ -19,7 +19,7 @@ export type taskcard = {
   pop: (arg: String) => void;
   k: any;
   author_id: number;
-  calc:number
+  calc: number;
 };
 export interface Usar {
   email: string;
@@ -79,8 +79,8 @@ export interface Note {
   note: string;
   label: string;
   noteId: number;
-  createdAt: string,
-  id: number,
+  createdAt: string;
+  id: number;
 }
 export const initialNote = {
   title: '',
@@ -94,12 +94,12 @@ export const initialNote = {
 export type PropsNote = {
   title: string;
   label: string;
-  id: number,
-  noteId: number
-  dOc: string,
+  id: number;
+  noteId: number;
+  dOc: string;
   note: string;
-  reload: (a:string) => void
-}
+  reload: (a: string) => void;
+};
 
 export const initialTask = {
   title: '',
@@ -126,38 +126,38 @@ export type Notes = {
   id: Number;
   title: string;
   notes: Note[];
-}
+};
 
 export type createnewtask = {
-  newTask: Task,
-  catid: number,
-  initialTask: Task,
-  onClose: () => void,
-  setTasks: Dispatch<SetStateAction<Task>>,
-  rev: (arg: String) => void,
-  em: string
-}
+  newTask: Task;
+  catid: number;
+  initialTask: Task;
+  onClose: () => void;
+  setTasks: Dispatch<SetStateAction<Task>>;
+  rev: (arg: String) => void;
+  em: string;
+};
 export type createeditedtask = {
   editedTasks: {
-      title: string,
-      description: string,
-      progress: string,
-      date: string,
-      label: string,
-  },
-  uid: number,
-  author_id: number,
-  onClose: () => void,
-  pop: (arg: String) => void,
-  e: string
-}
+    title: string;
+    description: string;
+    progress: string;
+    date: string;
+    label: string;
+  };
+  uid: number;
+  author_id: number;
+  onClose: () => void;
+  pop: (arg: String) => void;
+  e: string;
+};
 export type updatecategory = {
-  title: string,
-  team: string,
-  label: string,
-  author_id: string,
-  id: number,
-  uid: number,
-  pop: (arg: String) => void,
-  e: string
-}
+  title: string;
+  team: string;
+  label: string;
+  author_id: string;
+  id: number;
+  uid: number;
+  pop: (arg: String) => void;
+  e: string;
+};

@@ -9,12 +9,12 @@ export default async function handler(
   if (req.method === 'POST') {
     return await getCat(req, res);
   } else {
-  res.status(405).json({ message: 'Method is not allowed.' });
+    res.status(405).json({ message: 'Method is not allowed.' });
   }
 }
 
 export const getCat = async (req: NextApiRequest, res: NextApiResponse) => {
-  const  {email} = req.body;
+  const { email } = req.body;
   try {
     const category = await prisma.user.findUnique({
       where: {
@@ -23,14 +23,14 @@ export const getCat = async (req: NextApiRequest, res: NextApiResponse) => {
       select: {
         category: {
           orderBy: {
-            id: "asc"
+            id: 'asc',
           },
           select: {
             id: true,
-          }
+          },
         },
-      }
-    })
+      },
+    });
     return res.status(200).json(category);
   } catch (err) {
     console.log(err);

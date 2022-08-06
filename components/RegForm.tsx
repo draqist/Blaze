@@ -1,11 +1,8 @@
-import { Formik } from 'formik'
-import React from 'react'
+import { Formik } from 'formik';
+import React from 'react';
 
 const RegForm = () => {
-  return (
-    <>
-    </>
-  )
-}
+  return <></>;
+};
 
-export default RegForm
+export default RegForm;

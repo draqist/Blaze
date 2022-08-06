@@ -41,8 +41,8 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
               {
                 title: 'Completed',
               },
-            ]
-          }
+            ],
+          },
         },
         notes: {
           createMany: {
@@ -55,10 +55,10 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
               },
               {
                 title: 'Work',
-              }
-            ]
-          }
-        }
+              },
+            ],
+          },
+        },
       },
     });
     return res.status(200).json(newUser);
