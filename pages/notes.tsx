@@ -52,7 +52,7 @@ const Notes = () => {
         getNotes(userCred.email);
       }
     });
-  }, []);
+  }, [getnoteId]);
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;

@@ -71,10 +71,10 @@ const Signup = () => {
       console.log(error.message);
       // @ts-ignore
       setError({ state: true, message: error.message });
-      // @ts-ignore
       toast({
         title: 'Registration Failed',
         status: 'error',
+        // @ts-ignore
         description: `${error?.message}`,
         position: 'top',
         duration: 3000,
