@@ -42,15 +42,14 @@ const CardStack = (props: any) => {
 
   useEffect(() => {
     getcatId()
+    console.log(catid)
     if (id === catid) {
       setDis('flex');
     } else {
       setDis('none');
     }
-    console.log(task)
-
     // eslint-disable-next-line
-  }, []);
+  }, [getcatId]);
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
@@ -61,7 +60,10 @@ const CardStack = (props: any) => {
       const catId = await axios.post('/api/usercatid', {
         email: em,
       })
-      setCatId(Number(catId.data))
+      console.log(catId.data.category[0].id)
+      const kat = Number(catId.data.category[0].id)
+      setCatId(kat)
+      console.log(catid)
     } catch (error) {
       // @ts-ignore
       console.log(error.error)
