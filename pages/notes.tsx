@@ -53,7 +53,7 @@ const Notes = () => {
 
       const catId = await axios.post('/api/usercatid', {
 
-        email: em,
+        email: e
 
       })
 
