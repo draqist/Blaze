@@ -26,7 +26,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import BottomNav from '../components/BottomNav';
@@ -52,13 +52,13 @@ const Notes = () => {
         getNotes(userCred.email);
       }
     });
-  }, [getnoteId]);
+  }, []);
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
     setNewNote({ ...newNote, [e.target.name]: value });
   }
-  async function getnoteId() {
+  const getnoteId = useCallback ( async() =>  {
     try {
       const catId = await axios.post('/api/usernoteid', {
         email: e,
@@ -69,7 +69,7 @@ const Notes = () => {
       // @ts-ignore
       console.log(error.error);
     }
-  }
+  }, [e])
   async function getNotes(email: string) {
     try {
       const dew = await axios({
@@ -88,7 +88,16 @@ const Notes = () => {
   }
   
   async function createNewNote() {
+    let work = catid + 1;
+    let personal = catid + 2;
     try {
+      if (newNote.label === 'School') {
+        return
+      } else if (newNote.label === 'Work') {
+        setCatId(work);
+      } else if (newNote.label === 'Personal') {
+        setCatId(personal);
+      }
       const createnote = await fetch('/api/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -190,7 +199,7 @@ const Notes = () => {
                       '',
                       'repeat(2, 1fr)',
                       'repeat(2, 1fr)',
-                      'repeat(2, 1fr)',
+                      'repeat(3, 1fr)',
                     ]}
                     gap={['1', '', '4', '4', '4']}
                     alignItems="flex-start"
@@ -275,8 +284,8 @@ const Notes = () => {
                 onChange={handleModalInputs}
               >
                 <option value={'School'}> School </option>
-                <option value={'Work'}> Work </option>
                 <option value={'Personal'}> Personal </option>
+                <option value={'Work'}> Work </option>
               </Select>
               <FormErrorMessage> Kindly add a label </FormErrorMessage>
             </FormControl>

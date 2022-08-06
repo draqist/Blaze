@@ -23,7 +23,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import { authEmail } from '../utils/atom';
@@ -48,13 +48,13 @@ const CardStack = (props: any) => {
       setDis('none');
     }
     // eslint-disable-next-line
-  }, [getcatId]);
+  }, []);
   // @ts-ignore
   function handleModalInputs(e) {
     let value = e.target.value;
     setTasks({ ...newTask, [e.target.name]: value });
   }
-  async function getcatId() {
+  const getcatId = useCallback ( async () => {
     try {
       const catId = await axios.post('/api/usercatid', {
         email: em,
@@ -65,11 +65,7 @@ const CardStack = (props: any) => {
       // @ts-ignore
       console.log(error.error);
     }
-  }
-  function calcId() {
-    let userid;
-    return (userid = 1 + (uid - 1) * 4);
-  }
+  }, [em])
 
   let req = {
     newTask,
